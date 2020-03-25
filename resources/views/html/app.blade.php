@@ -351,13 +351,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header" style="margin-top:4%;width: 100%;">
       <h1>
-        Text Editors
-        <small>Advanced form element</small>
+        {{$page}}
+        <small>{{$ketpage}}</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Forms</a></li>
-        <li class="active">Editors</li>
+        <li><a href="{{url('/')}}"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="{{url('/'.$url)}}">{{$page}}</a></li>
+        
       </ol>
     </section>
 

@@ -35,10 +35,10 @@ Route::group([
             return '<h1>' . oon() . '</h1>';
         });
 
-        Route::group(['prefix' => 'siswa'], function(){
-            Route::get('/', 'SiswaController@view');
+        Route::group(['prefix' => 'pegawai'], function(){
+            Route::get('/{notif?}', 'PegawaiController@index');
             Route::get('/create', 'SiswaController@create');
-            Route::post('/save', 'SiswaController@save');
+            Route::post('/save/{act}', 'PegawaiController@store');
         });
 });
 Auth::routes();

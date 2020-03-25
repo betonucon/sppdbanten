@@ -5,6 +5,12 @@ function on_php_id()
    return 'My Helper Ready';
 }
 
+function golongan()
+{
+   $golongan=App\Golongan::all();
+   return $golongan;
+}
+
 function oon()
 {
    return 'My Helper Ready';

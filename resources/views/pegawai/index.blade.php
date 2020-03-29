@@ -22,14 +22,15 @@
                 <form method="post" action="{{url('/group/save')}}">   
                     <div class="mailbox-controls" style="background:#d6d6e3;margin-bottom:10px">
                         <!-- Check all button -->
-                        
+                        @if(cek_permision_role(6)=='All' || cek_permision_role(6)=='Create')
                             <span  data-toggle="modal" data-target="#modalreplay" class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i></span>
-                            <span  class="btn btn-success btn-sm"><i class="fa fa-print"></i></span>
-                            <span  class="btn btn-default btn-sm"><i class="fa fa-download"></i></span>
+                        @endif
+                            <span  class="btn btn-success btn-sm" onclick="print()"><i class="fa fa-print"></i></span>
+                            <span  class="btn btn-default btn-sm" onclick="download()"><i class="fa fa-download"></i></span>
                             
                         
                         <!-- /.btn-group -->
-                        <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                        <button type="button" class="btn btn-default btn-sm" onclick="reload()"><i class="fa fa-refresh"></i></button>
                         <div class="pull-right">
                         
                         </div>
@@ -59,10 +60,14 @@
                                     <td>{{$pegawai->golongan}}</td>
                                     <td>{{$pegawai->jabatan}}</td>
                                     <td>
+                                    @if(cek_permision_role(6)=='All' || cek_permision_role(6)=='Create')
                                         <div class="btn-group">
-                                            <span  class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></span>
+                                            <span  class="btn btn-default btn-sm" onclick="delete_data({{$pegawai->id}})"><i class="fa fa-trash-o"></i></span>
                                             <span  data-toggle="modal" data-target="#modalreplay{{$pegawai->id}}" class="btn btn-default btn-sm"><i class="fa fa-pencil"></i></span>
                                         </div>
+                                    @else
+                                        No Akses
+                                    @endif
                                     </td>
                                  </tr>
                             @endforeach
@@ -91,7 +96,7 @@
             </div>
             <form method="post" id="myform{{$modalpegawai->id}}" enctype="multipart/form-data">
             @csrf
-                <input typr="text" name="id" value="{{$modalpegawai->id}}">
+                <input type="hidden" name="id" value="{{$modalpegawai->id}}">
                 <div class="modal-body">
                     <div id="alertnya{{$modalpegawai->id}}" style="padding:10px;background:#dfdff7;font-weight:bold">
                     </div>
@@ -184,7 +189,7 @@
                     </div>
                     <div class="form-group">
                         <label>Golongan:</label>
-                        <select class="form-control select2" name="golongan" style="width: 100%;" data-select2-id="9" tabindex="-1" aria-hidden="true">
+                        <select class="form-control select2" name="golongan" style="width: 100%;" data-select2-id="8" tabindex="-1" aria-hidden="true">
                             <option value="">Pilih Golongan</option>
                             @foreach(golongan() as $golongan)
                                 <option value="{{$golongan->golongan}}">Golongan {{$golongan->golongan}}</option>
@@ -235,23 +240,67 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="notifikasidelete">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Warning</h4>
+            </div>
+            <div class="modal-body">
+                <div id="alertnyas" style="padding:10px;background:#dfdff7;font-weight:bold;text-align:center">
+                    <h4>Sukses Terhapus</h4>
+                </div>
+            </div>
+            <div class="modal-footer">
+            <span  class="btn btn-default pull-left" data-dismiss="modal">Close</span>
+            </div>
+        </div>
+    </div>
+</div>
 @push('datatable')
 @foreach($alert as $no=>$alert)
     <script>
         $( document ).ready(function() {
             $("#alertnya{{$alert->id}}").hide();
         });
+
+        function print(){
+            window.location.assign("{{url('/pegawai/pdf/pegawai')}}");
+        }
+
+        function download(){
+            window.location.assign("{{url('/pegawai/pdf/download')}}");
+        }
+
+        function reload(){
+            location.reload();
+        }
+
+        function delete_data(a){
+            $.ajax({
+                type: 'GET',
+                url: "{{url('/pegawai/delete/')}}/"+a,
+                data: 'id='+a,
+                success: function(msg){
+                   
+                    window.location.assign("{{url('/pegawai/hapus')}}");
+                    
+                }
+            });
+        }
     </script>
 @endforeach
 <script>
   $(function () {
     $('#example1').DataTable({
-      'paging'      : true,
-      'lengthChange': false,
-      'searching'   : true,
-      'ordering'    : true,
-      'info'        : false,
-      'autoWidth'   : false
+        'paging'      : true,
+        'lengthChange': true,
+        'searching'   : true,
+        'ordering'    : true,
+        'info'        : true,
+        'autoWidth'   : false
     })
   })
 </script>
@@ -261,6 +310,10 @@
     });
     @if($notif=='sukses')
         $('#notifikasi').modal("toggle");
+    @endif
+
+    @if($notif=='hapus')
+        $('#notifikasidelete').modal("toggle");
     @endif
 
     function simpan_data(){

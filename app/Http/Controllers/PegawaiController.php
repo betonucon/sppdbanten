@@ -7,18 +7,36 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
 use App\Pegawai;
-
+use PDF;
 class PegawaiController extends Controller
 {
     public function index($notif=null){
-        $page="Daftar Pegawai";
+        if(permision_role(6)>0){
+            $page="Daftar Pegawai";
+            $ketpage="Daftar Pegawai Aktif dan Non Aktif";
+            $url='pegawai/';
+            $pegawai=Pegawai::all();
+            $modalpegawai=Pegawai::all();
+            $alert=Pegawai::all();
+            $notif=$notif;
+            return view( 'pegawai.index',compact('page','ketpage','url','pegawai','notif','modalpegawai','alert'));
+        }else{
+            $page="Error Not Foud 404";
+            $ketpage="";
+            $url='/';
+            return view( 'error',compact('page','ketpage','url'));
+        }
+    }
+
+    public function report($notif=null){
+        $page="Report Pegawai";
         $ketpage="Daftar Pegawai Aktif dan Non Aktif";
-        $url='pegawai/';
+        $url='pegawai/report/report';
         $pegawai=Pegawai::all();
         $modalpegawai=Pegawai::all();
         $alert=Pegawai::all();
         $notif=$notif;
-        return view( 'pegawai.index',compact('page','ketpage','url','pegawai','notif','modalpegawai','alert'));
+        return view( 'pegawai.report',compact('page','ketpage','url','pegawai','notif','modalpegawai','alert'));
     }
 
     public function store(request $request, $act){
@@ -56,6 +74,25 @@ class PegawaiController extends Controller
                 echo'ok';
             }
         }
+    }
+
+    public function pdf(){
+        $pegawai = Pegawai::all();
+ 
+    	$pdf = PDF::loadview('pdf.pegawai',['pegawai'=>$pegawai]);
+    	return $pdf->stream();
+    }
+
+    public function download_pdf(){
+        $pegawai = Pegawai::all();
+ 
+    	$pdf = PDF::loadview('pdf.pegawai',['pegawai'=>$pegawai]);
+    	return $pdf->download();
+    }
+
+    public function delete($id){
+        $pegawai = Pegawai::where('id',$id)->delete();
+ 
     }
 
 

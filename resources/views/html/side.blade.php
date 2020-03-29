@@ -1,41 +1,71 @@
 <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">MAIN NAVIGATION</li>
-        <li class="treeview">
-          <a href="#">
+        <li>
+          <a href="{{url('/')}}">
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
           </a>
-          <ul class="treeview-menu">
-            <li><a href="../../index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-            <li><a href="../../index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
-          </ul>
         </li>
+        <li class="header">MENU</li>
         <!-- <li class="treeview">
           <a href="#">
-            <i class="fa fa-files-o"></i>
-            <span>Layout Options</span>
+            <i class="fa fa-clone"></i> <span>Master</span>
             <span class="pull-right-container">
-              <span class="label label-primary pull-right">4</span>
+              <i class="fa fa-plus pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="../layout/top-nav.html"><i class="fa fa-circle-o"></i> Top Navigation</a></li>
-            <li><a href="../layout/boxed.html"><i class="fa fa-circle-o"></i> Boxed</a></li>
-            <li><a href="../layout/fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>
-            <li><a href="../layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
+            <li><a href="{{url('/pegawai')}}"><i class="fa fa-check"></i> Pegawai</a></li>
+            <li><a href="{{url('/golongan')}}"><i class="fa fa-check"></i> Golongan</a></li>
+            <li><a href="{{url('/employe')}}"><i class="fa fa-check"></i> Employe</a></li>
           </ul>
-        </li>
+        </li> -->
+       
+        @foreach(menu() as $menu)
+          <li>
+            <a href="{{url(acces($menu->route_id)->link)}}">
+              <i class="fa fa-{{acces($menu->route_id)->icon}}"></i> <span>{{acces($menu->route_id)->name}}</span>
+            </a>
+          </li>
+        @endforeach
+        <!--
         <li>
-          <a href="../widgets.html">
-            <i class="fa fa-th"></i> <span>Widgets</span>
-            <span class="pull-right-container">
-              <small class="label pull-right bg-green">new</small>
-            </span>
+          <a href="{{url('/surat_tugas')}}">
+            <i class="fa fa-envelope-o"></i> <span>Surat Tugas</span>
           </a>
         </li>
-        <li class="treeview">
+
+        <li>
+          <a href="{{url('/surat_tugas/kwitansi/ok')}}">
+            <i class="fa fa-clone"></i> <span>Kwitansi</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{{url('/kegiatan')}}">
+            <i class="fa fa-th"></i> <span>Kegiatan</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{{url('/domlak')}}">
+            <i class="fa fa-map"></i> <span>SSH</span>
+          </a>
+        </li>
+        
+        <li>
+          <a href="{{url('/golongan')}}">
+            <i class="fa fa-group"></i> <span>Golongan</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{{url('/employe')}}">
+            <i class="fa fa-cog"></i> <span>Pengaturan Umum</span>
+          </a>
+        </li> -->
+
+
+
+        <!-- <li class="treeview">
           <a href="#">
             <i class="fa fa-pie-chart"></i>
             <span>Charts</span>

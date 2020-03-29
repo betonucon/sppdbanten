@@ -8,4 +8,5 @@ class Golongan extends Model
 {
     protected $table = 'golongan';
     public $timestamps = false;
+    
 }

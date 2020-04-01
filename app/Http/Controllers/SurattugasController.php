@@ -20,24 +20,30 @@ class SurattugasController extends Controller
     public function index($notif=null){
         if(permision_role(3)>0){
             $page="Surat Tugas";
-            $ketpage="Daftar Surat Tugas";
+            $ketpage="Daftar Surat Tugas ".cek_bidang(Auth::user()->bidang_id)['name'];
             $url='surat_tugas/';
-            $data=Surattugas::all();
-            $modaldata=Surattugas::all();
-            $pegai=Pegawai::all();
+            $data=Surattugas::where('bidang_id',Auth::user()->bidang_id)->get();
+            $modaldata=Surattugas::where('bidang_id',Auth::user()->bidang_id)->get();
+            $pegai=Pegawai::where('bidang_id',Auth::user()->bidang_id)->get();
             //dd(cek_kegiatan(24));
-            $alert=Surattugas::all();
+            $alert=Surattugas::where('bidang_id',Auth::user()->bidang_id)->get();
             $notif=$notif;
             $id = collect([]);
+            $id_kembali = collect([]);
             $pegawai_id = collect([]);
             $cekpegawai_id = collect([]);
             $transportasi = collect([]);
             $harian = collect([]);
             $representasi = collect([]);
             $penginapan = collect([]);
+            $tiket = collect([]);
+            $berangkat = collect([]);
+            $kembali = collect([]);
             foreach($modaldata as $dataa){
                 for($x=0;$x<$dataa->jumlah;$x++){
                     $detail=Detailsurattugas::where('surat_tugas_id',$dataa->id)->where('urut',$x)->first();
+                    
+
                     foreach($pegai as $pe){
                         if($pe['id']==$detail['pegawai_id']){
                             $pegawai_id->push([
@@ -49,6 +55,7 @@ class SurattugasController extends Controller
                             ]);
                         }
                     }
+                    
                     $transportasi->push([
                         'transportasi' => $detail['transportasi']
                     ]);
@@ -62,16 +69,33 @@ class SurattugasController extends Controller
                         'penginapan'   => $detail['uang_penginapan']
                     ]);
                     
+                    $tiket->push([
+                        'tiket'   => $detail['nomor_tiket']
+                    ]);
+
+                    $berangkat->push([
+                        'berangkat'   => $detail['harga_berangkat']
+                    ]);
+
+                    $kembali->push([
+                        'harga_kembali'   => $detail['harga_kembali']
+                    ]);
+
                     $cekpegawai_id->push([
                         'pegawai_id'   => $detail['pegawai_id']
                     ]);
                     $id->push([
                         'id'   => $detail['id']
                     ]);
+                    $id_kembali->push([
+                        'id_kembali'   => $detail['id']
+                    ]);
+
+                    
                 }
             }
-            //dd(nomor());
-            return view( 'surat_tugas.index',compact('page','ketpage','url','data','notif','modaldata','alert','transportasi','harian','representasi','penginapan','pegawai_id','id'));
+            //dd($detailsurat);
+            return view( 'surat_tugas.index',compact('page','ketpage','url','data','notif','modaldata','alert','transportasi','harian','representasi','penginapan','pegawai_id','id','tiket','berangkat','kembali','id_kembali'));
         }else{
             $page="Error Not Foud 404";
             $ketpage="";
@@ -82,13 +106,13 @@ class SurattugasController extends Controller
 
     public function report($notif=null){
         $page="Report Surat Tugas";
-        $ketpage="Daftar Surat Tugas";
+        $ketpage="Daftar Surat Tugas ".cek_bidang(Auth::user()->bidang_id)['name'];
         $url='surat_tugas/report/report';
-        $data=Surattugas::all();
-        $modaldata=Surattugas::all();
-        $pegai=Pegawai::all();
+        $data=Surattugas::where('bidang_id',Auth::user()->bidang_id)->get();
+        $modaldata=Surattugas::where('bidang_id',Auth::user()->bidang_id)->get();
+        $pegai=Pegawai::where('bidang_id',Auth::user()->bidang_id)->get();
         //dd(cek_kegiatan(24));
-        $alert=Surattugas::all();
+        $alert=Surattugas::where('bidang_id',Auth::user()->bidang_id)->get();
         $notif=$notif;
         $id = collect([]);
         $pegawai_id = collect([]);
@@ -138,13 +162,14 @@ class SurattugasController extends Controller
 
     public function index_kwitansi($notif=null){
         $page="Report Kwitansi";
-        $ketpage="Kwitansi SPPD";
+        $ketpage="Kwitansi SPPD ".cek_bidang(Auth::user()->bidang_id)['name'];
         $url='surat_tugas/kwitansi/ok';
-        $data=Surattugas::all();
-        $modaldata=Surattugas::all();
-        $pegai=Pegawai::all();
+        $data=Surattugas::where('bidang_id',Auth::user()->bidang_id)->get();
+        $modaldata=Surattugas::where('bidang_id',Auth::user()->bidang_id)->get();
+        $detaildata=Detailsurattugas::all();
+        $pegai=Pegawai::where('bidang_id',Auth::user()->bidang_id)->get();
         //dd(cek_kegiatan(24));
-        $alert=Surattugas::all();
+        $alert=Surattugas::where('bidang_id',Auth::user()->bidang_id)->get();
         $notif=$notif;
         $id = collect([]);
         $pegawai_id = collect([]);
@@ -189,7 +214,7 @@ class SurattugasController extends Controller
             }
         }
         //dd(nomor());
-        return view( 'surat_tugas.kwitansi',compact('page','ketpage','url','data','notif','modaldata','alert','transportasi','harian','representasi','penginapan','pegawai_id','id'));
+        return view( 'surat_tugas.kwitansi',compact('page','ketpage','url','data','notif','modaldata','alert','transportasi','harian','representasi','penginapan','pegawai_id','id','detaildata'));
     }
 
     public function detail($id){
@@ -230,6 +255,9 @@ class SurattugasController extends Controller
                     $datas->uang_harian         = $request->harian[$x];
                     $datas->uang_representasi   = $request->representasi[$x];
                     $datas->uang_penginapan     = $request->penginapan[$x];
+                    $datas->nomor_tiket         = $request->nomor_tiket[$x];
+                    $datas->harga_berangkat     = $request->harga_berangkat[$x];
+                    $datas->harga_kembali       = $request->harga_kembali[$x];
                     $datas->urut                = $x;
                     $datas->save();
                 }else{
@@ -240,6 +268,9 @@ class SurattugasController extends Controller
                     $datas->uang_harian         = $request->harian[$x];
                     $datas->uang_representasi   = $request->representasi[$x];
                     $datas->uang_penginapan     = $request->penginapan[$x];
+                    $datas->nomor_tiket         = $request->nomor_tiket[$x];
+                    $datas->harga_berangkat     = $request->harga_berangkat[$x];
+                    $datas->harga_kembali       = $request->harga_kembali[$x];
                     $datas->urut                = $x;
                     $datas->save();
                 }
@@ -256,6 +287,40 @@ class SurattugasController extends Controller
         }
         echo'ok';
     }
+
+    public function store_detail_kwitansi(request $request){
+        if (trim($request->date_kwitansi) == '') {$error[] = '-  Kolom Tanggal Kwitansi Harus diisi';}
+        if (trim($request->date_terima) == '') {$error[] = '-  Kolom Tanggal Terima Harus diisi';}
+        if (trim($request->nomor_kwitansi) == '') {$error[] = '-  Kolom Nomor Kwitansi Harus diisi';}
+        if (trim($request->nomor_rekening) == '') {$error[] = '-  Kolom Nomor Rekening Harus diisi';}
+        if (isset($error)) {echo '<b>Error</b>: <br />'.implode('<br />', $error);} 
+        else{
+            $update                     =Surattugas::find($request->id);
+            $update->date_kwitansi      = $request->date_kwitansi;
+            $update->date_terima        = $request->date_terima;
+            $update->nomor_kwitansi      = $request->nomor_kwitansi;
+            $update->nomor_rekening      = $request->nomor_rekening;
+                        
+            $update->save();
+
+            $jum=count($request->detail_id);
+            $delete=Riwayatsppd::where('surat_tugas_id',$request->surat_tugas_id)->delete();
+
+            for($x=0;$x<$jum;$x++){
+                
+                        $datas                      = Detailsurattugas::find($request->detail_id[$x]);
+                        $datas->transportasi        = $request->transportasi[$x];
+                        $datas->uang_harian         = $request->uang_harian[$x];
+                        $datas->uang_representasi   = $request->uang_representasi[$x];
+                        $datas->uang_penginapan     = $request->uang_penginapan[$x];
+                        $datas->harga_berangkat     = $request->harga_berangkat[$x];
+                        $datas->harga_kembali       = $request->harga_kembali[$x];
+                        $datas->save();
+                    
+            }
+            echo'ok';
+        }
+    }
     public function store(request $request, $act){
         if (trim($request->jenis_sppd_id) == '') {$error[] = '-  Pilih Jenis SPPD';}
         if (trim($request->date_surat) == '') {$error[] = '-  Kolom Tanggal Surat Harus diisi';}
@@ -271,6 +336,7 @@ class SurattugasController extends Controller
         if (trim($request->jasa_perjalanan_id) == '') {$error[] = '-  Pilih Layanan Perjalanan SPPD';}
         if (isset($error)) {echo '<b>Error</b>: <br />'.implode('<br />', $error);} 
         else{
+            
             if($act=='new'){
                 $datas                      = new Surattugas;
                 $datas->date_surat          = $request->date_surat;
@@ -289,11 +355,16 @@ class SurattugasController extends Controller
                 $datas->filelampiran        = $request->nomor_surat;
                 $datas->filedokumen         = $request->nomor_surat;
                 $datas->kegiatan_id         = $request->kegiatan_id;
+                $datas->bidang_id           = Auth::user()->bidang_id;
                 $datas->pejabat_id          = $request->pejabat_id;
                 $datas->jenis_sppd_id       = $request->jenis_sppd_id;
                 $datas->angkutan_id         = $request->angkutan_id;
                 $datas->tujuan_sppd_id      = $request->tujuan_sppd_id;
                 $datas->selisih             = selisih($request->date_mulai,$request->date_sampai);
+                $datas->jurusan             = $request->jurusan;
+                $datas->pesawat             = $request->pesawat;
+                $datas->date_berangkat      = $request->date_berangkat;
+                $datas->date_kembali        = $request->date_kembali;
                 $datas->sts                 = 1;
                 $datas->save();
 
@@ -307,6 +378,7 @@ class SurattugasController extends Controller
                 $datas->jumlah              = $request->jumlah;
                 $datas->tujuan              = $request->tujuan;
                 $datas->kunjungan           = $request->kunjungan;
+                $datas->bidang_id           = Auth::user()->bidang_id;
                 $datas->dasar               = $request->dasar;
                 $datas->jasa_perjalanan_id  = $request->jasa_perjalanan_id;
                 $datas->maksud              = $request->maksud;
@@ -320,6 +392,10 @@ class SurattugasController extends Controller
                 $datas->angkutan_id         = $request->angkutan_id;
                 $datas->tujuan_sppd_id      = $request->tujuan_sppd_id;
                 $datas->selisih             = selisih($request->date_mulai,$request->date_sampai);
+                $datas->jurusan             = $request->jurusan;
+                $datas->pesawat             = $request->pesawat;
+                $datas->date_berangkat      = $request->date_berangkat;
+                $datas->date_kembali        = $request->date_kembali;
                 $datas->save();
                 echo'ok';
             }
@@ -346,7 +422,7 @@ class SurattugasController extends Controller
     }
 
     public function pdf(){
-        $data = Golongan::all();
+        $data = Surattugas::where('bidang_id',Auth::user()->bidang_id)->get();
  
         $pdf = PDF::loadview('pdf.surat_tugas',['data'=>$data]);
         $pdf->setPaper('A3', 'landscape');
@@ -375,6 +451,58 @@ class SurattugasController extends Controller
         }
         
         $pdf = PDF::loadview('pdf.kwitansi',['data'=>$data,'detail'=>$detail,'total'=>$total,'transportasi'=>$transportasi,'harian'=>$harian,'representasi'=>$representasi,'penginapan'=>$penginapan]);
+        //$pdf->setPaper('A3', 'landscape');
+    	return $pdf->stream();
+    }
+
+    public function pdf_kwitansi_spm($id){
+        $data = Surattugas::where('id',$id)->first();
+        $detail = Detailsurattugas::where('surat_tugas_id',$id)->get();
+        $total=0;
+        $transportasi=0;
+        $representasi=0;
+        $harian=0;
+        $penginapan=0;
+        foreach($detail as $det){
+            $tot=$det['transportasi'] + $det['uang_harian'];
+            $trs=$det['transportasi'];
+            $har=$det['uang_harian'];
+            $rep=$det['uang_representasi'];
+            $peng=$det['uang_penginapan'];
+            $total=$tot;
+            $transportasi=$trs;
+            $harian=$har;
+            $representasi=$rep;
+            $penginapan=$peng;
+        }
+        
+        $pdf = PDF::loadview('pdf.kwitansi_spm',['data'=>$data,'detail'=>$detail,'total'=>$total,'transportasi'=>$transportasi,'harian'=>$harian,'representasi'=>$representasi,'penginapan'=>$penginapan]);
+        //$pdf->setPaper('A3', 'landscape');
+    	return $pdf->stream();
+    }
+
+    public function pdf_kwitansi_rpbd($id){
+        $data = Surattugas::where('id',$id)->first();
+        $detail = Detailsurattugas::where('surat_tugas_id',$id)->orderBy('urut','asc')->get();
+        $total=0;
+        $transportasi=0;
+        $representasi=0;
+        $harian=0;
+        $penginapan=0;
+        foreach($detail as $det){
+            $tot=$det['transportasi'] + $det['uang_harian'];
+            $trs=$det['transportasi'];
+            $har=$det['uang_harian'];
+            $rep=$det['uang_representasi'];
+            $peng=$det['uang_penginapan'];
+            $total=$tot;
+            $transportasi=$trs;
+            $harian=$har;
+            $representasi=$rep;
+            $penginapan=$peng;
+        }
+        
+        $pdf = PDF::loadview('pdf.kwitansi_rpbd',['data'=>$data,'detail'=>$detail,'total'=>$total,'transportasi'=>$transportasi,'harian'=>$harian,'representasi'=>$representasi,'penginapan'=>$penginapan]);
         //$pdf->setPaper('A3', 'landscape');
     	return $pdf->stream();
     }
@@ -437,14 +565,15 @@ class SurattugasController extends Controller
     }
 
     public function download_pdf(){
-        $data = Golongan::all();
+        $data = Surattugas::where('bidang_id',Auth::user()->bidang_id)->get();
  
-    	$pdf = PDF::loadview('pdf.golongan',['data'=>$data]);
+    	$pdf = PDF::loadview('pdf.surat_tugas',['data'=>$data]);
     	return $pdf->download();
     }
 
     public function delete($id){
-        $pegawai = Golongan::where('id',$id)->delete();
+        $pegawai = Surattugas::where('id',$id)->delete();
+        $detail = Detailsurattugas::where('surat_tugas_id',$id)->delete();
  
     }
 }

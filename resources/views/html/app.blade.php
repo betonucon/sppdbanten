@@ -25,7 +25,7 @@
   <!-- Select2 -->
   <link rel="stylesheet" href="{{url('/adminlte/bower_components/select2/dist/css/select2.min.css')}}">
   <!-- DataTables -->
-  <link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+  <link rel="stylesheet" href="{{url('/adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{url('/adminlte/dist/css/AdminLTE.min.css')}}">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -37,13 +37,12 @@
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  
   <![endif]-->
 
   <!-- Google Font -->
-  <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <!-- <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic"> -->
   <style>
     #loading {
           position: fixed;
@@ -282,9 +281,9 @@
 <!-- AdminLTE for demo purposes -->
 <script src="{{url('/adminlte/dist/js/demo.js')}}"></script>
 <!-- CK Editor -->
-<script src="{{url('/adminlte/bower_components/ckeditor/ckeditor.js')}}"></script>
+<!-- <script src="{{url('/adminlte/bower_components/ckeditor/ckeditor.js')}}"></script> -->
 <!-- Bootstrap WYSIHTML5 -->
-<script src="{{url('/adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js')}}"></script>
+<!-- <script src="{{url('/adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js')}}"></script> -->
 @stack('datatable')
 <script>
   $(function () {
@@ -347,6 +346,12 @@
         format: 'yyyy-mm-dd'
     });
     $('#datepickers2').datepicker({
+        format: 'yyyy-mm-dd'
+    });
+    $('#datepickerb1').datepicker({
+        format: 'yyyy-mm-dd'
+    });
+    $('#datepickerb2').datepicker({
         format: 'yyyy-mm-dd'
     });
 

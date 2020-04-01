@@ -5,20 +5,9 @@
     }
     td{
         font-size: 13px;
-        padding:6px;
     }
     th{
         font-size: 13px;
-       
-    }
-    .tth{
-        font-size: 13px;
-        padding:6px;
-        background:aqua;
-    }
-    .ttd{
-        font-size: 13px;
-        padding:6px;
     }
 </style>
 @section('content')
@@ -33,10 +22,10 @@
                 <form method="post" action="{{url('/group/save')}}">   
                     <div class="mailbox-controls" style="background:#d6d6e3;margin-bottom:10px">
                         <!-- Check all button -->
-                        
+                       
                             <span  data-toggle="modal" data-target="#modalreplay" class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i></span>
-                            <!-- <span  class="btn btn-success btn-sm" onclick="print()"><i class="fa fa-print"></i></span>
-                            <span  class="btn btn-default btn-sm" onclick="download()"><i class="fa fa-download"></i></span> -->
+                            <span  class="btn btn-success btn-sm" onclick="print()"><i class="fa fa-print"></i></span>
+                            <span  class="btn btn-default btn-sm" onclick="download()"><i class="fa fa-download"></i></span>
                             
                         
                         <!-- /.btn-group -->
@@ -52,24 +41,24 @@
                         <thead>
                             <tr>
                                 <th width="5%">No</th>
-                                <th>Keterangan</th>
-                                <th>Role</th>
-                                <th width="5%">App</th>
+                                <th width="30%">Nama Jasa Perjalanan</th>
+                                <th>Deskripsi</th>
                                 <th width="10%"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($user as $no=>$user)
+                            @foreach($bidang as $no=>$bidang)
                                 <tr>
                                     <td>{{$no+1}}</td>
-                                    <td>App/Laravel</td>
-                                    <td>{{$user->name}}</td>
-                                    <td><span  data-keyboard="false" data-backdrop="static" data-toggle="modal" data-target="#modalapp{{$user->id}}" class="btn btn-default btn-sm"><i class="fa fa-plus"></i></span></td>
+                                    <td> {{$bidang->name}}</td>
+                                    <td> {{$bidang->keterangan}}</td>
                                     <td>
+                                   
                                         <div class="btn-group">
-                                            <span  class="btn btn-default btn-sm" onclick="delete_data({{$user->id}})"><i class="fa fa-trash-o"></i></span>
-                                            <span  data-toggle="modal" data-target="#modalreplay{{$user->id}}" class="btn btn-default btn-sm"><i class="fa fa-pencil"></i></span>
+                                            <span  class="btn btn-default btn-sm" onclick="delete_data({{$bidang->id}})"><i class="fa fa-trash-o"></i></span>
+                                            <span  data-toggle="modal" data-target="#modalreplay{{$bidang->id}}" class="btn btn-default btn-sm"><i class="fa fa-pencil"></i></span>
                                         </div>
+                                   
                                     </td>
                                  </tr>
                             @endforeach
@@ -87,14 +76,14 @@
       </div>
       <!-- /.row -->
 </section>
-@foreach($modaluser as $no=>$modalpegawai)
+@foreach($modalbidang as $no=>$modalpegawai)
 <div class="modal fade" id="modalreplay{{$modalpegawai->id}}">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Form Pegawai</h4>
+            <h4 class="modal-title">Form Bidang</h4>
             </div>
             <form method="post" id="myform{{$modalpegawai->id}}" enctype="multipart/form-data">
             @csrf
@@ -103,57 +92,21 @@
                     <div id="alertnya{{$modalpegawai->id}}" style="padding:10px;background:#dfdff7;font-weight:bold">
                     </div>
                     <div class="form-group">
-                        <label>Nama Role:</label>
-                        <input type="text" class="form-control" value="{{$modalpegawai->name}}" id="name" name="name">
+                        <label>Nama Jasa Perjalanan:</label>
+                        <input type="text" class="form-control" id="name" value="{{$modalpegawai->name}}" name="name">
                     </div>
+                    <div class="form-group">
+                        <label>Deskripsi:</label>
+                        <input type="text" class="form-control" id="keterangan" value="{{$modalpegawai->keterangan}}"  name="keterangan">
+                    </div>
+                    <!-- <div class="form-group">
+                        <label>Logo:</label>
+                        <input type="text" class="form-control" id="kopsurat2" value="{{$modalpegawai->kopsurat2}}" name="kopsurat2">
+                    </div> -->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default " data-dismiss="modal">Tutup</button>
                     <button type="button" id="simpan{{$modalpegawai->id}}" Onclick="simpan_data({{$modalpegawai->id}});" class="btn btn-primary pull-left">Simpan</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="modalapp{{$modalpegawai->id}}">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Form Akses</h4>
-            </div>
-            <form method="post" id="myformroute{{$modalpegawai->id}}" enctype="multipart/form-data">
-            @csrf
-                <input type="hidden" name="id" value="{{$modalpegawai->id}}">
-                <input type="hidden" name="role_id" value="{{$modalpegawai->id}}">
-                <div class="modal-body">
-                    <!-- <div id="alertnya{{$modalpegawai->id}}" style="padding:10px;background:#dfdff7;font-weight:bold">
-                    </div> -->
-                    <table width="100%">
-                        <tr>
-                            <th class="tth" width="10%">NO</th>
-                            <th class="tth" >Modul</th>
-                            <th class="tth" width="15%">Permision</th>
-                        </tr>
-                        @foreach($rout as $routs)
-                        <tr>
-                            <td class="ttd"><input type="checkbox" value="{{$routs->id}}" {{$check->shift()['check']}} name="route_id[]"></td>
-                            <td class="ttd">{{$routs->name}}</td>
-                            <td class="ttd">
-                                <select name="permision_id[]">
-                                    @foreach(permision() as $permision)
-                                        <option value="{{$permision->id}}" {{$hase->shift()['selected']}} >{{$permision->name}}</option>
-                                    @endforeach
-                                </select>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default " data-dismiss="modal">Tutup</button>
-                    <button type="button" id="simpan_route{{$modalpegawai->id}}" Onclick="simpan_route({{$modalpegawai->id}});" class="btn btn-primary pull-left">Simpan</button>
                 </div>
             </form>
         </div>
@@ -166,7 +119,7 @@
             <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Form Role</h4>
+            <h4 class="modal-title">Form Bidang</h4>
             </div>
             <form method="post" id="myform" enctype="multipart/form-data">
             @csrf
@@ -174,8 +127,12 @@
                     <div id="alertnya" style="padding:10px;background:#dfdff7;font-weight:bold">
                     </div>
                     <div class="form-group">
-                        <label>Nama Role:</label>
-                        <input type="text" class="form-control" id="name" name="name">
+                        <label>Nama Jasa Perjalanan:</label>
+                        <input type="text" class="form-control" id="name"  name="name">
+                    </div>
+                    <div class="form-group">
+                        <label>Deskripsi:</label>
+                        <input type="text" class="form-control" id="keterangan"   name="keterangan">
                     </div>
                     
                 </div>
@@ -202,7 +159,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-            <span  class="btn btn-default pull-left" onclick="close_notif()"  data-dismiss="modal">Close</span>
+            <span  class="btn btn-default pull-left" data-dismiss="modal">Close</span>
             </div>
         </div>
     </div>
@@ -221,7 +178,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-            <span  class="btn btn-default pull-left" onclick="close_notif()" data-dismiss="modal">Close</span>
+            <span  class="btn btn-default pull-left" data-dismiss="modal">Close</span>
             </div>
         </div>
     </div>
@@ -238,11 +195,11 @@
 <script>
 
 function print(){
-    window.location.assign("{{url('/golongan/pdf/golongan')}}");
+    window.location.assign("{{url('/jasa/pdf/jasa')}}");
 }
 
 function download(){
-    window.location.assign("{{url('/golongan/pdf/download')}}");
+    window.location.assign("{{url('/jasa/pdf/download')}}");
 }
 
 function reload(){
@@ -252,11 +209,11 @@ function reload(){
 function delete_data(a){
     $.ajax({
         type: 'GET',
-        url: "{{url('/user/delete/')}}/"+a,
+        url: "{{url('/jasa/delete/')}}/"+a,
         data: 'id='+a,
         success: function(msg){
             
-            window.location.assign("{{url('/user/hapus')}}");
+            window.location.assign("{{url('/jasa/hapus')}}");
             
         }
     });
@@ -276,27 +233,19 @@ function delete_data(a){
     $( document ).ready(function() {
         $('#alertnya').hide();
     });
-    function close_notif(){
-        window.location.assign("{{url('/user/')}}");
-    }
     @if($notif=='sukses')
-        $('#notifikasi').modal({
-    		backdrop: 'static',
-    		keyboard: false});
+        $('#notifikasi').modal("toggle");
     @endif
 
     @if($notif=='hapus')
-       
-        $('#notifikasidelete').modal({
-    		backdrop: 'static',
-    		keyboard: false});
+        $('#notifikasidelete').modal("toggle");
     @endif
 
     function simpan_data_(){
         var form=document.getElementById('myform');
         $.ajax({
           type: 'POST',
-          url: "{{url('/user/user_role/new')}}",
+          url: "{{url('/jasa/save/new')}}",
           data: new FormData(form),
           contentType: false,
           cache: false,
@@ -306,7 +255,7 @@ function delete_data(a){
           },
           success: function(msg){
             if(msg=='ok'){
-                window.location.assign("{{url('/user/sukses')}}");
+                window.location.assign("{{url('/jasa/sukses')}}");
             }else{
               $('#alertnya').show();
               $('#alertnya').html(msg);
@@ -318,37 +267,11 @@ function delete_data(a){
         //alert('dfdsfsd');
     }
 
-    function simpan_route(a){
-        var form=document.getElementById('myformroute'+a);
-        //alert(a);
-        $.ajax({
-          type: 'POST',
-          url: "{{url('/user/save/new')}}",
-          data: new FormData(form),
-          contentType: false,
-          cache: false,
-          processData:false,
-          beforeSend: function(){
-            $('#simpan_route'+a).attr("disabled","disabled");
-          },
-          success: function(msg){
-            if(msg=='ok'){
-                window.location.assign("{{url('/user/sukses')}}");
-            }else{
-              $("#simpan_route"+a).removeAttr("disabled");
-              alert(msg);
-            }
-            
-          }
-        });
-        //alert('dfdsfsd');
-    }
-
     function simpan_data(a){
         var form=document.getElementById('myform'+a);
         $.ajax({
           type: 'POST',
-          url: "{{url('/user/user_role/edit')}}",
+          url: "{{url('/jasa/save/edit')}}",
           data: new FormData(form),
           contentType: false,
           cache: false,
@@ -358,7 +281,7 @@ function delete_data(a){
           },
           success: function(msg){
             if(msg=='ok'){
-                window.location.assign("{{url('/user/sukses')}}");
+                window.location.assign("{{url('/jasa/sukses')}}");
             }else{
               $('#alertnya'+a).show();
               $('#alertnya'+a).html(msg);

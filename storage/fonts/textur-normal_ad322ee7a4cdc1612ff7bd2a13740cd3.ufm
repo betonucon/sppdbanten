@@ -1,0 +1,147 @@
+StartFontMetrics 4.1
+Notice Converted by PHP-font-lib
+Comment https://github.com/PhenX/php-font-lib
+EncodingScheme FontSpecific
+Copyright Copyright (c) 2011 by Tyler Finck. All rights reserved.
+FontName Ostrich Sans
+FontSubfamily Medium
+UniqueID 1.000;pyrs;OstrichSans-Medium
+FullName Ostrich Sans Medium
+Version Version 1.000
+PostScriptName OstrichSans-Medium
+Trademark Ostrich Sans Medium is a trademark of Tyler Finck.
+Manufacturer Tyler Finck
+Designer Tyler Finck
+Description Copyright (c) 2011 by Tyler Finck. All rights reserved.
+FontVendorURL http://www.sursly.com
+FontDesignerURL http://www.sursly.com
+LicenseDescription Just let me know if and where you use it! Enjoy :)
+LicenseURL http://www.sursly.com
+CompatibleFullName 佳瑲楣栠卡湳⁍敤極
+Weight Bold
+ItalicAngle 0
+IsFixedPitch false
+UnderlineThickness 50
+UnderlinePosition -75
+FontHeightOffset 0
+Ascender 750
+Descender -250
+FontBBox -20 -40 605 675
+StartCharMetrics 118
+U 32 ; WX 210 ; N space ; G 3
+U 33 ; WX 93 ; N exclam ; G 26
+U 34 ; WX 162 ; N quotedbl ; G 27
+U 35 ; WX 542 ; N numbersign ; G 28
+U 36 ; WX 320 ; N dollar ; G 29
+U 37 ; WX 449 ; N percent ; G 30
+U 38 ; WX 429 ; N ampersand ; G 31
+U 39 ; WX 81 ; N quotesingle ; G 62
+U 40 ; WX 166 ; N parenleft ; G 32
+U 41 ; WX 158 ; N parenright ; G 33
+U 42 ; WX 295 ; N asterisk ; G 34
+U 43 ; WX 384 ; N plus ; G 35
+U 44 ; WX 85 ; N comma ; G 36
+U 45 ; WX 299 ; N hyphen ; G 37
+U 46 ; WX 81 ; N period ; G 38
+U 47 ; WX 384 ; N slash ; G 39
+U 48 ; WX 320 ; N zero ; G 40
+U 49 ; WX 194 ; N one ; G 41
+U 50 ; WX 320 ; N two ; G 42
+U 51 ; WX 303 ; N three ; G 43
+U 52 ; WX 324 ; N four ; G 44
+U 53 ; WX 310 ; N five ; G 45
+U 54 ; WX 312 ; N six ; G 46
+U 55 ; WX 376 ; N seven ; G 47
+U 56 ; WX 332 ; N eight ; G 48
+U 57 ; WX 308 ; N nine ; G 49
+U 58 ; WX 113 ; N colon ; G 50
+U 59 ; WX 97 ; N semicolon ; G 51
+U 60 ; WX 833 ; N less ; G 102
+U 61 ; WX 312 ; N equal ; G 52
+U 62 ; WX 833 ; N greater ; G 103
+U 63 ; WX 303 ; N question ; G 53
+U 64 ; WX 647 ; N at ; G 54
+U 65 ; WX 392 ; N A ; G 93
+U 66 ; WX 336 ; N B ; G 94
+U 67 ; WX 344 ; N C ; G 92
+U 68 ; WX 348 ; N D ; G 4
+U 69 ; WX 303 ; N E ; G 5
+U 70 ; WX 308 ; N F ; G 6
+U 71 ; WX 352 ; N G ; G 7
+U 72 ; WX 344 ; N H ; G 8
+U 73 ; WX 109 ; N I ; G 9
+U 74 ; WX 324 ; N J ; G 10
+U 75 ; WX 360 ; N K ; G 11
+U 76 ; WX 295 ; N L ; G 12
+U 77 ; WX 473 ; N M ; G 13
+U 78 ; WX 360 ; N N ; G 14
+U 79 ; WX 356 ; N O ; G 15
+U 80 ; WX 340 ; N P ; G 16
+U 81 ; WX 348 ; N Q ; G 17
+U 82 ; WX 348 ; N R ; G 18
+U 83 ; WX 348 ; N S ; G 117
+U 84 ; WX 401 ; N T ; G 19
+U 85 ; WX 348 ; N U ; G 20
+U 86 ; WX 401 ; N V ; G 21
+U 87 ; WX 651 ; N W ; G 22
+U 88 ; WX 392 ; N X ; G 23
+U 89 ; WX 417 ; N Y ; G 24
+U 90 ; WX 409 ; N Z ; G 25
+U 91 ; WX 833 ; N bracketleft ; G 106
+U 92 ; WX 380 ; N backslash ; G 55
+U 93 ; WX 833 ; N bracketright ; G 105
+U 94 ; WX 833 ; N asciicircum ; G 104
+U 95 ; WX 461 ; N underscore ; G 56
+U 96 ; WX 81 ; N grave ; G 61
+U 97 ; WX 392 ; N a ; G 63
+U 98 ; WX 336 ; N b ; G 64
+U 99 ; WX 344 ; N c ; G 65
+U 100 ; WX 348 ; N d ; G 66
+U 101 ; WX 303 ; N e ; G 90
+U 102 ; WX 308 ; N f ; G 67
+U 103 ; WX 352 ; N g ; G 68
+U 104 ; WX 344 ; N h ; G 69
+U 105 ; WX 109 ; N i ; G 91
+U 106 ; WX 324 ; N j ; G 70
+U 107 ; WX 360 ; N k ; G 71
+U 108 ; WX 295 ; N l ; G 72
+U 109 ; WX 473 ; N m ; G 73
+U 110 ; WX 360 ; N n ; G 74
+U 111 ; WX 356 ; N o ; G 75
+U 112 ; WX 340 ; N p ; G 76
+U 113 ; WX 348 ; N q ; G 77
+U 114 ; WX 348 ; N r ; G 78
+U 115 ; WX 348 ; N s ; G 89
+U 116 ; WX 401 ; N t ; G 88
+U 117 ; WX 348 ; N u ; G 79
+U 118 ; WX 401 ; N v ; G 80
+U 119 ; WX 651 ; N w ; G 81
+U 120 ; WX 392 ; N x ; G 82
+U 121 ; WX 417 ; N y ; G 83
+U 122 ; WX 409 ; N z ; G 84
+U 123 ; WX 833 ; N braceleft ; G 107
+U 124 ; WX 89 ; N bar ; G 85
+U 125 ; WX 833 ; N braceright ; G 108
+U 126 ; WX 833 ; N asciitilde ; G 109
+U 160 ; WX 210 ; N space ; G 3
+U 169 ; WX 833 ; N copyright ; G 114
+U 174 ; WX 833 ; N registered ; G 115
+U 305 ; WX 109 ; N dotlessi ; G 101
+U 710 ; WX 833 ; N circumflex ; G 113
+U 711 ; WX 833 ; N caron ; G 100
+U 728 ; WX 833 ; N breve ; G 95
+U 729 ; WX 833 ; N dotaccent ; G 96
+U 730 ; WX 833 ; N ring ; G 97
+U 731 ; WX 833 ; N ogonek ; G 99
+U 732 ; WX 833 ; N tilde ; G 110
+U 733 ; WX 833 ; N hungarumlaut ; G 98
+U 8211 ; WX 299 ; N endash ; G 86
+U 8212 ; WX 299 ; N emdash ; G 87
+U 8216 ; WX 81 ; N quoteleft ; G 57
+U 8217 ; WX 81 ; N quoteright ; G 60
+U 8220 ; WX 150 ; N quotedblleft ; G 58
+U 8221 ; WX 150 ; N quotedblright ; G 59
+U 8226 ; WX 833 ; N bullet ; G 112
+U 8482 ; WX 874 ; N trademark ; G 111
+EndCharMetrics
+EndFontMetrics

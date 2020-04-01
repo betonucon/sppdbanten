@@ -90,9 +90,9 @@
             @foreach($detail as $detail)
             <tr>
               <td>{{$detail->urut+1}}</td>
-              <td>{{cekpegawai($detail->pegawai_id)->nama}}</td>
-              <td>{{cekpegawai($detail->pegawai_id)->nip}}</td>
-              <td>{{cekpegawai($detail->pegawai_id)->golongan}}</td>
+              <td>{{cekpegawai($detail->pegawai_id)['nama']}}</td>
+              <td>{{cekpegawai($detail->pegawai_id)['nip']}}</td>
+              <td>{{cekpegawai($detail->pegawai_id)['golongan']}}</td>
               <td>Rp.{{$detail->transportasi}} </td>
               <td>Rp.{{$detail->uang_harian}} </td>
               <td>Rp.{{$detail->uang_representasi}} </td>

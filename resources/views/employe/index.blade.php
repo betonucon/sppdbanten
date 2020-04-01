@@ -23,10 +23,10 @@
                 <form method="post" action="{{url('/group/save')}}">   
                     <div class="mailbox-controls" style="background:#d6d6e3;margin-bottom:10px">
                         <!-- Check all button -->
-                        @if(cek_permision_role(7)=='All' || cek_permision_role(7)=='Create')
+                       
                             <span  data-toggle="modal" data-keyboard="false" data-backdrop="static" data-target="#modalreplay" class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i></span>
                             
-                        @endif
+                       
                         <!-- /.btn-group -->
                         <button type="button" class="btn btn-default btn-sm" onclick="reload()"><i class="fa fa-refresh"></i></button>
                         <div class="pull-right">
@@ -44,6 +44,7 @@
                                 <th>Nama</th>
                                 <th>Email</th>
                                 <th>Akses</th>
+                                <th>Bidang</th>
                                 <th>Role</th>
                             
                                 <th width="8%"></th>
@@ -55,19 +56,18 @@
                                     <td>{{$no+1}}</td>
                                     <td>{{$employe->nip}}</td>
                                     <td>{{$employe->name}}</td>
-                                    <td>{{users($employe->nip)->email}}</td>
+                                    <td>{{users($employe->nip)['email']}}</td>
                                     <td>{{akses($employe->akses)}}</td>
-                                    <td>{{role($employe->role_id)->name}}</td>
+                                    <td>{{cek_bidang($employe->bidang_id)['name']}}</td>
+                                    <td>{{role($employe->role_id)['name']}}</td>
                                    
                                     <td>
-                                    @if(cek_permision_role(7)=='All' || cek_permision_role(7)=='Create')
+                                   
                                         <div class="btn-group">
                                             <span  class="btn btn-default btn-sm" onclick="delete_data({{$employe->id}})"><i class="fa fa-trash-o"></i></span>
                                             <span  data-toggle="modal" data-keyboard="false" data-backdrop="static" data-target="#modalreplay{{$employe->id}}" class="btn btn-default btn-sm"><i class="fa fa-pencil"></i></span>
                                         </div>
-                                    @else
-                                        No Akses
-                                    @endif
+                                   
                                     </td>
                                  </tr>
                             @endforeach
@@ -110,7 +110,7 @@
                     </div>
                     <div class="form-group">
                         <label>Email:</label>
-                        <input type="email" class="form-control" id="email" value="{{users($modalpegawai->nip)->email}}" name="email">
+                        <input type="text" class="form-control" id="email" value="{{users($modalpegawai->nip)['nip']}}" name="email">
                     </div>
                     <div class="form-group">
                         <label>Akses:</label>
@@ -129,6 +129,19 @@
                                 <option value="{{$role->id}}" @if($modalpegawai->role_id==$role->id) selected @endif>{{$role->name}}</option>
                             @endforeach
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Bidang:</label>
+                        <select class="form-control select2" name="bidang_id" style="width: 100%;" data-select2-id="10" tabindex="-1" aria-hidden="true">
+                            <option value="">Pilih bidang</option>
+                            @foreach(bidang() as $bidang)
+                                <option value="{{$bidang->id}}" @if($modalpegawai->bidang_id==$bidang->id) selected @endif>{{$bidang->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Password:</label>
+                        <input type="password" class="form-control" id="password" value="{{users($modalpegawai->nip)['screate']}}" name="password">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -217,7 +230,19 @@
                             @endforeach
                         </select>
                     </div>
-                    
+                    <div class="form-group">
+                        <label>Bidang:</label>
+                        <select class="form-control select2" name="bidang_id" style="width: 100%;" data-select2-id="10" tabindex="-1" aria-hidden="true">
+                            <option value="">Pilih bidang</option>
+                            @foreach(bidang() as $bidang)
+                                <option value="{{$bidang->id}}" >{{$bidang->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Password:</label>
+                        <input type="password" class="form-control" id="password" name="password">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default " data-dismiss="modal">Tutup</button>

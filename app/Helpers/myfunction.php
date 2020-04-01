@@ -9,6 +9,10 @@ function menu(){
    return $data;
 }
 
+function detail_surat($id,$urut){
+   $data=App\Detailsurattugas::where('surat_tugas_id',$id)->where('urut',$urut)->first();
+   return $data;
+}
 function acces($id){
    $data=App\Route::where('id',$id)->first();
    return $data;
@@ -16,7 +20,7 @@ function acces($id){
 
 function cek_role($id){
    $data=App\Permision::where('id',$id)->first();
-   return $data->name;
+   return $data['name'];
 }
 
 function permision_role($route){
@@ -120,7 +124,7 @@ function selisih($a,$b)
 
 function pegawai()
 {
-   $golongan=App\Pegawai::all();
+   $golongan=App\Pegawai::where('bidang_id',Auth::user()->bidang_id)->get();
    return $golongan;
 }
 function cekjasaperjalanan($id)
@@ -143,12 +147,12 @@ function cekpegawai($id)
 function cekgolongan($id)
 {
    $golongan=App\Golongan::where('id',$id)->first();
-   return $golongan->golongan;
+   return $golongan['golongan'];
 }
 function status($id)
 {
    $data=App\Status::where('sts',$id)->first();
-   $text='<p style="color:'.$data->color.'">'.$data->name.'</p>';
+   $text='<p style="color:'.$data->color.'">'.$data['name'].'</p>';
    return $text;
 }
 
@@ -167,12 +171,39 @@ function pilih_angkutan()
 function angkutan($id)
 {
    $data=App\Angkutan::where('id',$id)->first();
-   return $data->name;
+   return $data['name'];
+}
+
+function transportasi($id)
+{
+   $data=App\Detailsurattugas::where('surat_tugas_id',$id)->sum('transportasi');
+   return $data;
+}
+function uang_harian($id)
+{
+   $data=App\Detailsurattugas::where('surat_tugas_id',$id)->sum('uang_harian');
+   return $data;
+}
+function uang_penginapan($id)
+{
+   $data=App\Detailsurattugas::where('surat_tugas_id',$id)->sum('uang_penginapan');
+   return $data;
+}
+function uang_representasi($id)
+{
+   $data=App\Detailsurattugas::where('surat_tugas_id',$id)->sum('uang_representasi');
+   return $data;
+}
+function harga_tiket($id)
+{
+   $berangkat=App\Detailsurattugas::where('surat_tugas_id',$id)->sum('harga_berangkat');
+   $kembali=App\Detailsurattugas::where('surat_tugas_id',$id)->sum('harga_kembali');
+   return ($berangkat+$kembali);
 }
 
 function kegiatan()
 {
-   $golongan=App\Kegiatan::all();
+   $golongan=App\Kegiatan::where('bidang_id',Auth::user()->bidang_id)->get();
    return $golongan;
 }
 
@@ -180,6 +211,17 @@ function cek_kegiatan($id)
 {
    $golongan=App\Kegiatan::where('id',$id)->first();
    return $golongan->title;
+}
+function bidang()
+{
+   $data=App\Bidang::all();
+   return $data;
+}
+
+function cek_bidang($id)
+{
+   $data=App\Bidang::where('id',$id)->first();
+   return $data;
 }
 
 function bendahara()
@@ -193,6 +235,12 @@ function tanggal($id)
    return $data;
 }
 function text_tanggal($id)
+{
+   $tgl=explode('-',$id);
+   $data=$tgl[2].'  '.bulan($tgl[1]).' '.$tgl[0];
+   return $data;
+}
+function tanggal_surat($id)
 {
    $tgl=explode('-',$id);
    $data=$tgl[2].'  '.bulan($tgl[1]).' '.$tgl[0];
@@ -219,7 +267,7 @@ function pilih_tujuan_sppd($id)
 function tujuan_sppd($id)
 {
    $data=App\Tujuan::where('id',$id)->first();
-   return $data->name;
+   return $data['name'];
 }
 
 function pilih_jenis_sppd()
@@ -230,19 +278,19 @@ function pilih_jenis_sppd()
 function jenis_sppd($id)
 {
    $data=App\Jenissppd::where('id',$id)->first();
-   return $data->name;
+   return $data['name'];
 }
 
 function author($id)
 {
    $data=App\User::where('nim',$id)->first();
-   return $data->name;
+   return $data['name'];
 }
 
 function akses($id)
 {
    $data=App\Akses::where('id',$id)->first();
-   return $data->name;
+   return $data['name'];
 }
 
 function pilih_akses()

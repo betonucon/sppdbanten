@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Pegawai;
 use App\Riwayatsppd;
@@ -27,7 +28,7 @@ class HomeController extends Controller
         $page="Dashboard";
         $ketpage="Data Pencarian Pegawai Bertugas";
         $url='/';
-        $data=Pegawai::all();
+        $data=Pegawai::where('bidang_id',Auth::user()->bidang_id)->get();
         $cekdata=collect([]);
         foreach($data as $o){
             for($t=1;$t<=31;$t++){

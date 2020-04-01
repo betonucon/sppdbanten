@@ -14,11 +14,11 @@ class KegiatanController extends Controller
     public function index($notif=null){
         if(permision_role(5)>0){
             $page="Kegiatan";
-            $ketpage="Daftar Kegiatan";
+            $ketpage="Daftar Kegiatan ".cek_bidang(Auth::user()->bidang_id)['name'];
             $url='kegiatan/';
-            $kegiatan=Kegiatan::all();
-            $modalkegiatan=Kegiatan::all();
-            $alert=Kegiatan::all();
+            $kegiatan=Kegiatan::where('bidang_id',Auth::user()->bidang_id)->get();
+            $modalkegiatan=Kegiatan::where('bidang_id',Auth::user()->bidang_id)->get();
+            $alert=Kegiatan::where('bidang_id',Auth::user()->bidang_id)->get();
             $notif=$notif;
             return view( 'kegiatan.index',compact('page','ketpage','url','kegiatan','notif','modalkegiatan','alert'));
         }else{
@@ -41,6 +41,7 @@ class KegiatanController extends Controller
                 $datas->jumlah              = $request->jumlah;
                 $datas->kode_rekening       = $request->kode_rekening;
                 $datas->users_id            = Auth::user()['nim'];
+                $datas->bidang_id           = Auth::user()->bidang_id;
 
                 $datas->save();
 
@@ -51,6 +52,7 @@ class KegiatanController extends Controller
                 $datas->title               = $request->title;
                 $datas->jumlah              = $request->jumlah;
                 $datas->kode_rekening       = $request->kode_rekening;
+                $datas->bidang_id           = Auth::user()->bidang_id;
                 $datas->save();
                 echo'ok';
             }

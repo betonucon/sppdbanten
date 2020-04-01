@@ -212,21 +212,51 @@
                     <h4 class="modal-title">Angkutan dan Layanan Pemesanan Tiket</h4><hr style="border-top: 1px solid #d2aeae;margin-top: 10px;margin-bottom: 15px;">
                         <div class="form-group">
                             <label>Angkutan yang dipergunakan:</label>
-                            <select class="form-control select2"  name="angkutan_id" style="width: 100%;" data-select2-id="9" tabindex="-1" aria-hidden="true">
+                            <select class="form-control select2"  onchange="cek_pesawat_(this.value,{{$modalpegawai->id}})" id="angkutan_id{{$modalpegawai->id}}" name="angkutan_id" style="width: 100%;" data-select2-id="9" tabindex="-1" aria-hidden="true">
                                 <option value="">Pilih Angkutan</option>
                                 @foreach(pilih_angkutan() as $angkutan)
                                     <option value="{{$angkutan->id}}" @if($modalpegawai->angkutan_id==$angkutan->id) selected @endif> {{$angkutan->name}}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label>Layanan Pemesanan Tiket:</label>
-                            <select class="form-control select2"  name="jasa_perjalanan_id" style="width: 100%;" data-select2-id="10" tabindex="-1" aria-hidden="true">
-                                <option value="">Pilih Layanan</option>
-                                @foreach(jasaperjalanan() as $jasa)
-                                    <option value="{{$jasa->id}}" @if($modalpegawai->jasa_perjalanan_id==$jasa->id) selected @endif> {{$jasa->name}}</option>
-                                @endforeach
-                            </select>
+                        
+                        
+                        <div id="rincian{{$modalpegawai->id}}" style="padding:10px;background:#ececf9">
+                            <div class="form-group">
+                                <label>Layanan Pemesanan Tiket:</label>
+                                <select class="form-control select2"  name="jasa_perjalanan_id" style="width: 100%;" data-select2-id="10" tabindex="-1" aria-hidden="true">
+                                    <option value="">Pilih Layanan</option>
+                                    @foreach(jasaperjalanan() as $jasa)
+                                        <option value="{{$jasa->id}}" @if($modalpegawai->jasa_perjalanan_id==$jasa->id) selected @endif> {{$jasa->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group" >
+                                <label>Jurusan:</label>
+                                <input type="text"  class="form-control" id="jurusan" value="{{$modalpegawai->jurusan}}"  name="jurusan">
+                            </div>
+                            <div class="form-group">
+                                <label>Tanggal Berangkat:</label>
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" name="date_berangkat" class="form-control pull-right" value="{{$modalpegawai->date_berangkat}}" id="datepickerb1">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Tanggal Kembali:</label>
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" name="date_kembali" class="form-control pull-right" value="{{$modalpegawai->date_kembali}}" id="datepickerb2">
+                                </div>
+                            </div>
+                            <div class="form-group" >
+                                <label>Nama Pesawat Udara:</label>
+                                <input type="text"  class="form-control" id="pesawat" value="{{$modalpegawai->pesawat}}" name="pesawat">
+                            </div>
                         </div>
                         <h4 class="modal-title">Keterangan Surat Tugas</h4><hr style="border-top: 1px solid #d2aeae;margin-top: 10px;margin-bottom: 15px;">
                         <div class="form-group">
@@ -253,7 +283,7 @@
 </div>
 
 <div class="modal fade" id="person{{$modalpegawai->id}}">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg" style="width:85%">
         <div class="modal-content">
             <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -273,17 +303,22 @@
                         <tr>
                             <td class="ttd" width="5%">No</td>
                             <td class="ttd">Pegawai</td>
-                            <td class="ttd" width="13%">Transport</td>
-                            <td class="ttd" width="13%">Harian</td>
-                            <td class="ttd" width="13%">Resepresentasi</td>
-                            <td class="ttd" width="13%">Penginapan</td>
+                            <td class="ttd" width="9%">Transport</td>
+                            <td class="ttd" width="9%">Harian</td>
+                            <td class="ttd" width="9%">Resepresen</td>
+                            <td class="ttd" width="9%">Penginapan</td>
+                            @if($modalpegawai->angkutan_id==1)
+                            <td class="ttd" width="11%">No Tiket</td>
+                            <td class="ttd" width="9%">H Berangkat</td>
+                            <td class="ttd" width="9%">H Kembali</td>
+                            @endif
                         
                         </tr>
                         @for($x=0;$x<$modalpegawai->jumlah;$x++)
                         <tr>
                             <td class="ttd" align="center">{{$x+1}}</td>
                             <td class="ttd">
-                                <select class="form-control select2" onchange="cekbiaya(this.value,{{$modalpegawai->id}},{{$x}})" name="pegawai_id[]" style="width: 100%;" data-select2-id="{{$modalpegawai->id}}{{$x}}" tabindex="-1" aria-hidden="true">
+                                <select class=" select2"  onchange="cekbiaya(this.value,{{$modalpegawai->id}},{{$x}})" name="pegawai_id[]" style="width: 100%;height: 25px;" data-select2-id="{{$modalpegawai->id}}{{$x}}" tabindex="-1" aria-hidden="true">
                                     <option value="">Pilih Pegawai</option>
                                     @foreach(pegawai() as $pegawai)
                                         <option value="{{$pegawai->id}}" {{$pegawai_id->shift()['selected']}}  > {{$pegawai->nama}}</option>
@@ -291,18 +326,30 @@
                                 </select>
                             </td>
                             <td class="ttd">
-                                <input type="text" readonly name="transportasi[]" value="{{$transportasi->shift()['transportasi']}}" id="transportasi{{$modalpegawai->id}}{{$x}}" class="form-control">
+                                <input type="text" style="width:100%" readonly name="transportasi[]" value="{{$transportasi->shift()['transportasi']}}" id="transportasi{{$modalpegawai->id}}{{$x}}" >
                             </td>
                             <td class="ttd">
-                                <input type="text" readonly name="harian[]" value="{{$harian->shift()['harian']}}" id="harian{{$modalpegawai->id}}{{$x}}" class="form-control">
+                                <input type="text" style="width:100%" readonly name="harian[]" value="{{$harian->shift()['harian']}}" id="harian{{$modalpegawai->id}}{{$x}}" >
                             </td>
                             <td class="ttd">
-                                <input type="text" readonly name="representasi[]" value="{{$representasi->shift()['representasi']}}" id="representasi{{$modalpegawai->id}}{{$x}}" class="form-control">
+                                <input type="text" style="width:100%" readonly name="representasi[]" value="{{$representasi->shift()['representasi']}}" id="representasi{{$modalpegawai->id}}{{$x}}" >
                             </td>
                             <td class="ttd">
-                                <input type="text" readonly name="penginapan[]" value="{{$penginapan->shift()['penginapan']}}" id="penginapan{{$modalpegawai->id}}{{$x}}" class="form-control">
-                                <input type="hidden" readonly name="id[]" value="{{$id->shift()['id']}}" class="form-control">
+                                <input type="text" style="width:100%" readonly name="penginapan[]" value="{{$penginapan->shift()['penginapan']}}" id="penginapan{{$modalpegawai->id}}{{$x}}" >
+                                <input type="hidden" readonly name="id[]" value="{{$id->shift()['id']}}" >
                             </td>
+                            @if($modalpegawai->angkutan_id==1)
+                                
+                                <td class="ttd">
+                                    <input type="text" style="width:100%" name="nomor_tiket[]" value="{{detail_surat($modalpegawai->id,$x)->nomor_tiket}}">
+                                </td>
+                                <td class="ttd">
+                                    <input type="text" style="width:100%" name="harga_berangkat[]" value="{{detail_surat($modalpegawai->id,$x)->harga_berangkat}}">
+                                </td>
+                                <td class="ttd">
+                                    <input type="text" style="width:100%" name="harga_kembali[]" value="{{detail_surat($modalpegawai->id,$x)->harga_kembali}}">
+                                </td>
+                            @endif
                         </tr>
                         @endfor
                     </table>
@@ -427,21 +474,49 @@
                         <h4 class="modal-title">Angkutan dan Layanan Pemesanan Tiket</h4><hr style="border-top: 1px solid #d2aeae;margin-top: 10px;margin-bottom: 15px;">
                         <div class="form-group">
                             <label>Angkutan yang dipergunakan:</label>
-                            <select class="form-control select2"  name="angkutan_id" style="width: 100%;" data-select2-id="9" tabindex="-1" aria-hidden="true">
+                            <select class="form-control select2" onchange="cek_pesawat(this.value)" name="angkutan_id" style="width: 100%;" data-select2-id="9" tabindex="-1" aria-hidden="true">
                                 <option value="">Pilih Angkutan</option>
                                 @foreach(pilih_angkutan() as $angkutan)
                                     <option value="{{$angkutan->id}}"> {{$angkutan->name}}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label>Layanan Pemesanan Tiket:</label>
-                            <select class="form-control select2"  name="jasa_perjalanan_id" style="width: 100%;" data-select2-id="10" tabindex="-1" aria-hidden="true">
-                                <option value="">Pilih Layanan</option>
-                                @foreach(jasaperjalanan() as $jasa)
-                                    <option value="{{$jasa->id}}"> {{$jasa->name}}</option>
-                                @endforeach
-                            </select>
+                        <div id="rincian" style="padding:10px;background:#ececf9">
+                            <div class="form-group" >
+                                <label>Layanan Pemesanan Tiket:</label>
+                                <select class="form-control select2"  name="jasa_perjalanan_id" style="width: 100%;" data-select2-id="10" tabindex="-1" aria-hidden="true">
+                                    <option value="">Pilih Layanan</option>
+                                    @foreach(jasaperjalanan() as $jasa)
+                                        <option value="{{$jasa->id}}"> {{$jasa->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group" >
+                                <label>Jurusan:</label>
+                                <input type="text"  class="form-control" id="jurusan"  name="jurusan">
+                            </div>
+                            <div class="form-group">
+                                <label>Tanggal Berangkat:</label>
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" name="date_berangkat" class="form-control pull-right" id="datepickerb1">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Tanggal Kembali:</label>
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" name="date_kembali" class="form-control pull-right" id="datepickerb2">
+                                </div>
+                            </div>
+                            <div class="form-group" >
+                                <label>Nama Pesawat Udara:</label>
+                                <input type="text"  class="form-control" id="pesawat"  name="pesawat">
+                            </div>
                         </div>
                         <h4 class="modal-title">Keterangan Surat Tugas</h4><hr style="border-top: 1px solid #d2aeae;margin-top: 10px;margin-bottom: 15px;">
                         <div class="form-group">
@@ -501,7 +576,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-            <span  class="btn btn-default pull-left" data-dismiss="modal">Close</span>
+            <span  class="btn btn-default pull-left" data-dismiss="modal" onclick="close_notif()">Close</span>
             </div>
         </div>
     </div>
@@ -522,8 +597,17 @@
     </script>
     <script>
         $( document ).ready(function() {
+            var angkutan_id=$('#angkutan_id{{$alert->id}}').val();
+            if(angkutan_id==1){
+                $("#rincian{{$alert->id}}").show();
+            }else{
+                $("#rincian{{$alert->id}}").hide();
+            }
             $("#alertnya{{$alert->id}}").hide();
+            
         });
+
+        
 
         $('#datepickerok{{$alert->id}}').datepicker({
             format: 'yyyy-mm-dd'
@@ -536,7 +620,10 @@
 @push('datatable')
 
 <script>
-
+ $( document ).ready(function() {
+    $('#alertnya').hide();
+    $('#rincian').hide();
+});
 function close_notif(){
     window.location.assign("{{url('/surat_tugas/')}}");
 }
@@ -569,14 +656,28 @@ function detail(a){
     window.location.assign("{{url('/surat_tugas/detail/')}}/"+a);
 }
 
+function cek_pesawat(a){
+    if(a==1){
+        $('#rincian').show();
+    }else{
+        $('#rincian').hide();
+    }
+}
+function cek_pesawat_(a,b){
+    if(a==1){
+        $('#rincian'+b).show();
+    }else{
+        $('#rincian'+b).hide();
+    }
+}
 function delete_data(a){
     $.ajax({
         type: 'GET',
-        url: "{{url('/golongan/delete/')}}/"+a,
+        url: "{{url('/surat_tugas/delete/')}}/"+a,
         data: 'id='+a,
         success: function(msg){
             
-            window.location.assign("{{url('/golongan/hapus')}}");
+            window.location.assign("{{url('/surat_tugas/hapus')}}");
             
         }
     });
@@ -643,10 +744,9 @@ function carijumlah(a,b){
 </script>
 <script>
 //$('#notifikasi').modal({ keyboard: true })
-    $( document ).ready(function() {
-        $('#alertnya').hide();
-    });
+   
 
+    
     @if($notif=='sukses')
         $('#notifikasi').modal({
     		backdrop: 'static',
@@ -654,7 +754,9 @@ function carijumlah(a,b){
     @endif
 
     @if($notif=='hapus')
-        $('#notifikasidelete').modal("toggle");
+        $('#notifikasidelete').modal({
+    		backdrop: 'static',
+    		keyboard: false});
     @endif
 
    

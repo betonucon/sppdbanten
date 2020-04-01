@@ -29,6 +29,8 @@ class EmployeController extends Controller
         if (trim($request->email) == '') {$error[] = '-  Kolom Email Harus diisi';}
         if (trim($request->akses) == '') {$error[] = '-  Pilih Akses';}
         if (trim($request->role_id) == '') {$error[] = '-  Pilih Role';}
+        if (trim($request->bidang_id) == '') {$error[] = '-  Pilih Bidang';}
+        if (trim($request->password) == '') {$error[] = '-  Kolom Password Harus diisi';}
         if (isset($error)) {echo '<b>Error</b>: <br />'.implode('<br />', $error);} 
         else{
             if($act=='new'){
@@ -36,6 +38,7 @@ class EmployeController extends Controller
                 $datas->nip                 = $request->nip;
                 $datas->name                = $request->name;
                 $datas->role_id             = $request->role_id;
+                $datas->bidang_id           = $request->bidang_id;
                 $datas->akses               = $request->akses;
                 $datas->save();
 
@@ -43,8 +46,10 @@ class EmployeController extends Controller
                 $users->nim                 = $request->nip;
                 $users->name                = $request->name;
                 $users->email               = $request->email;
+                $users->bidang_id           = $request->bidang_id;
                 $users->role_id             = $request->role_id;
-                $users->password            = Hash::make($request->nip);
+                $users->password            = Hash::make($request->password);
+                $users->screate             = $request->password;
                 $users->save();
 
                 // dd($request->nip);
@@ -53,13 +58,17 @@ class EmployeController extends Controller
                 $datas                      = Employe::find($request->id);
                 $datas->nip                 = $request->nip;
                 $datas->name                = $request->name;
+                $datas->bidang_id           = $request->bidang_id;
                 $datas->role_id             = $request->role_id;
                 $datas->akses               = $request->akses;
                 $datas->save();
 
                 $users                      = User::where('nim',$request->nip)->first();
                 $users->name                = $request->name;
+                $users->bidang_id           = $request->bidang_id;
                 $users->role_id             = $request->role_id;
+                $users->password            = Hash::make($request->password);
+                $users->screate             = $request->password;
                 $users->save();
 
                 echo'ok';

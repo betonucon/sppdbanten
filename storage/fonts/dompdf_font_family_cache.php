@@ -84,6 +84,6 @@
     'bold_italic' => $fontDir . '/OpenSansCondensed-Light',
   ),
   'textur' => array(
-    'normal' => $fontDir . '/textur-normal_3743a8e14edcce7f8890ffa11184651b',
+    'normal' => $fontDir . '/textur-normal_8f703739eceb7ea9b506076ccc4ea21d',
   ),
 ) ?>

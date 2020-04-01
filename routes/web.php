@@ -42,6 +42,7 @@ Route::group([
             Route::get('/pdf/user', 'UsersController@pdf');
             Route::get('/pdf/download', 'UsersController@download_pdf');
             Route::post('/save/{act}', 'UsersController@store');
+            Route::post('/user_role/{act}', 'UsersController@store_role');
             Route::get('/delete/{id}', 'UsersController@delete');
         });
 
@@ -61,6 +62,22 @@ Route::group([
             Route::get('/delete/{id}', 'EmployeController@delete');
         });
 
+        Route::group(['prefix' => 'bidang'], function(){
+            Route::get('/{notif?}', 'BidangController@index');
+            Route::get('/pdf/bidang', 'BidangController@pdf');
+            Route::get('/pdf/download', 'BidangController@download_pdf');
+            Route::post('/save/{act}', 'BidangController@store');
+            Route::get('/delete/{id}', 'BidangController@delete');
+        });
+
+        Route::group(['prefix' => 'jasa'], function(){
+            Route::get('/{notif?}', 'JasaController@index');
+            Route::get('/pdf/jasa', 'JasaController@pdf');
+            Route::get('/pdf/download', 'JasaController@download_pdf');
+            Route::post('/save/{act}', 'JasaController@store');
+            Route::get('/delete/{id}', 'JasaController@delete');
+        });
+
         Route::group(['prefix' => 'domlak'], function(){
             Route::get('/{notif?}', 'DomlakController@index');
             Route::get('/pdf/domlak', 'DomlakController@pdf');
@@ -77,10 +94,13 @@ Route::group([
             Route::get('/pdf/sppd/{id}', 'SurattugasController@pdf_sppd');
             Route::get('/pdf/spt/{id}', 'SurattugasController@pdf_spt');
             Route::get('/pdf/kwitansi/{id}', 'SurattugasController@pdf_kwitansi');
+            Route::get('/pdf/kwitansi_spm/{id}', 'SurattugasController@pdf_kwitansi_spm');
+            Route::get('/pdf/kwitansi_rpbd/{id}', 'SurattugasController@pdf_kwitansi_rpbd');
             Route::get('/pdf/surat_tugas', 'SurattugasController@pdf');
             Route::get('/pdf/download', 'SurattugasController@download_pdf');
             Route::post('/save/{act}', 'SurattugasController@store');
             Route::post('/save_detail/', 'SurattugasController@store_detail');
+            Route::post('/save/kwitansi/detail/', 'SurattugasController@store_detail_kwitansi');
             Route::get('/cari/{id}', 'SurattugasController@cari_jumlah');
             Route::get('/detail/{id}', 'SurattugasController@detail');
             Route::get('/delete/{id}', 'SurattugasController@delete');

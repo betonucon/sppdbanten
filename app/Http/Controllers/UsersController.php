@@ -86,6 +86,26 @@ class UsersController extends Controller
         echo 'ok';
     }
 
+    public function store_role(request $request, $act){
+        if (trim($request->name) == '') {$error[] = '-  Kolom Nama Role Harus diisi';}
+        if (isset($error)) {echo '<b>Error</b>: <br />'.implode('<br />', $error);} 
+        else{
+            if($act=='new'){
+                $datas               = new Role;
+                $datas->name         = $request->name;
+                $datas->save();
+
+                // dd($request->nip);
+                echo'ok';
+            }else{
+                $datas               = Role::find($request->id);
+                $datas->name         = $request->name;
+                $datas->save();
+                echo'ok';
+            }
+        }
+    }
+
     public function pdf(){
         $data = Golongan::all();
  
@@ -101,7 +121,8 @@ class UsersController extends Controller
     }
 
     public function delete($id){
-        $pegawai = Golongan::where('id',$id)->delete();
+        $pegawai = Role::where('id',$id)->delete();
+        $detail = Hasrole::where('role_id',$id)->delete();
  
     }
 }

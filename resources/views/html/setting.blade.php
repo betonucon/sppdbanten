@@ -9,7 +9,7 @@
       <!-- Home tab content -->
       <div class="tab-pane active" id="control-sidebar-home-tab">
         <ul class="control-sidebar-menu">
-        @if(Auth::user()->role_id==4)
+        @if(Auth::user()->role_id==3)
           <li>
             <a href="{{url('/user/')}}">
             <h4 class="control-sidebar-subheading"><i class="fa fa-gear"></i> Pengaturan Role</h4>

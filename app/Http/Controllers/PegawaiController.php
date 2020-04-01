@@ -13,12 +13,13 @@ class PegawaiController extends Controller
     public function index($notif=null){
         if(permision_role(6)>0){
             $page="Daftar Pegawai";
-            $ketpage="Daftar Pegawai Aktif dan Non Aktif";
+            $ketpage="Daftar Pegawai ".cek_bidang(Auth::user()->bidang_id)['name'];
             $url='pegawai/';
-            $pegawai=Pegawai::all();
-            $modalpegawai=Pegawai::all();
-            $alert=Pegawai::all();
+            $pegawai=Pegawai::where('bidang_id',Auth::user()->bidang_id)->get();
+            $modalpegawai=Pegawai::where('bidang_id',Auth::user()->bidang_id)->get();
+            $alert=Pegawai::where('bidang_id',Auth::user()->bidang_id)->get();
             $notif=$notif;
+           
             return view( 'pegawai.index',compact('page','ketpage','url','pegawai','notif','modalpegawai','alert'));
         }else{
             $page="Error Not Foud 404";
@@ -55,6 +56,7 @@ class PegawaiController extends Controller
                 $datas->pangkat      = $request->pangkat;
                 $datas->jabatan      = $request->jabatan;
                 $datas->golongan     = $request->golongan;
+                $datas->bidang_id    = Auth::user()->bidang_id;
                 $datas->status       = $request->status;
                 $datas->nomor_rekening       = $request->nomor_rekening;
                 $datas->save();
@@ -68,6 +70,7 @@ class PegawaiController extends Controller
                 $datas->pangkat      = $request->pangkat;
                 $datas->jabatan      = $request->jabatan;
                 $datas->golongan     = $request->golongan;
+                $datas->bidang_id    = Auth::user()->bidang_id;
                 $datas->status       = $request->status;
                 $datas->nomor_rekening       = $request->nomor_rekening;
                 $datas->save();

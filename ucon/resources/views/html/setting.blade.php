@@ -21,33 +21,35 @@
             </a>
           </li>
         @endif
+        @if(route_pengaturan(Auth::user()->role_id)>0)
           <li>
             <a href="{{url('/employe/')}}">
             <h4 class="control-sidebar-subheading"><i class="fa fa-gear"></i> Pengaturan Umum</h4>
             </a>
           </li>
-        @if(permision_role(6)>0)
+        @endif
+        @if(route_pegawai(Auth::user()->role_id)>0)
           <li>
             <a href="{{url('/pegawai/report/report')}}">
             <h4 class="control-sidebar-subheading"><i class="fa fa-clone"></i> Report Pegawai</h4>
             </a>
           </li>
         @endif
-        @if(permision_role(3)>0)
+        @if(route_surat_tugas(Auth::user()->role_id)>0)
           <li>
             <a href="{{url('/surat_tugas/report/report')}}">
             <h4 class="control-sidebar-subheading"><i class="fa fa-clone"></i> Report Surat Tugas</h4>
             </a>
           </li>
         @endif
-        @if(permision_role(4)>0)
+        @if(route_kwitansi(Auth::user()->role_id)>0)
           <li>
-            <a href="{{url('/surat_tugas/kwitansi/ok')}}">
+            <a href="{{url('/surat_tugas/report_kwitansi/ok')}}">
             <h4 class="control-sidebar-subheading"><i class="fa fa-clone"></i> Report Kwitansi</h4>
             </a>
           </li>
           <li>
-            <a href="javascript:void(0)">
+            <a href="{{url('/surat_tugas/report_detail_kwitansi/ok')}}">
             <h4 class="control-sidebar-subheading"><i class="fa fa-clone"></i> Report Kwitansi Detail</h4>
             </a>
           </li>

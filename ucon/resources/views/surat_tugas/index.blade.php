@@ -702,7 +702,7 @@ function cekbiaya(z,a,b){
     //alert(tujuan_sppd_id);
     $.ajax({
         type: 'GET',
-        url: "{{url('/surat_tugas/ceknilai/')}}/"+z+"/"+jenis_sppd_id+"/"+angkutan_id+"/"+tujuan_sppd_id,
+        url: "{{url('/surat_tugas/ceknilai/')}}/"+z+"/"+jenis_sppd_id+"/"+tujuan_sppd_id,
         data: 'a=1',
         success: function(msg){
             nilai=msg.split("-");

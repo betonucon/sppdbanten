@@ -104,15 +104,16 @@ class SurattugasController extends Controller
         }
     }
 
-    public function report($notif=null){
+    public function report(request $request,$notif=null){
         $page="Report Surat Tugas";
         $ketpage="Daftar Surat Tugas ".cek_bidang(Auth::user()->bidang_id)['name'];
         $url='surat_tugas/report/report';
-        $data=Surattugas::where('bidang_id',Auth::user()->bidang_id)->get();
-        $modaldata=Surattugas::where('bidang_id',Auth::user()->bidang_id)->get();
+        $data=Surattugas::where('bidang_id',Auth::user()->bidang_id)->whereBetween('date_surat', [$request->mulai, $request->sampai])->get();
+        $modaldata=Surattugas::where('bidang_id',Auth::user()->bidang_id)->whereBetween('date_surat', [$request->mulai, $request->sampai])->get();
         $pegai=Pegawai::where('bidang_id',Auth::user()->bidang_id)->get();
-        //dd(cek_kegiatan(24));
-        $alert=Surattugas::where('bidang_id',Auth::user()->bidang_id)->get();
+        $mulai=$request->mulai;
+        $sampai=$request->sampai;
+        $alert=Surattugas::where('bidang_id',Auth::user()->bidang_id)->whereBetween('date_surat', [$request->mulai, $request->sampai])->get();
         $notif=$notif;
         $id = collect([]);
         $pegawai_id = collect([]);
@@ -157,11 +158,11 @@ class SurattugasController extends Controller
             }
         }
         //dd(nomor());
-        return view( 'surat_tugas.report',compact('page','ketpage','url','data','notif','modaldata','alert','transportasi','harian','representasi','penginapan','pegawai_id','id'));
+        return view( 'surat_tugas.report',compact('page','ketpage','url','data','notif','mulai','sampai','modaldata','alert','transportasi','harian','representasi','penginapan','pegawai_id','id'));
     }
 
     public function index_kwitansi($notif=null){
-        $page="Report Kwitansi";
+        $page="Kwitansi";
         $ketpage="Kwitansi SPPD ".cek_bidang(Auth::user()->bidang_id)['name'];
         $url='surat_tugas/kwitansi/ok';
         $data=Surattugas::where('bidang_id',Auth::user()->bidang_id)->get();
@@ -215,6 +216,122 @@ class SurattugasController extends Controller
         }
         //dd(nomor());
         return view( 'surat_tugas.kwitansi',compact('page','ketpage','url','data','notif','modaldata','alert','transportasi','harian','representasi','penginapan','pegawai_id','id','detaildata'));
+    }
+    public function index_report_kwitansi(request $request, $notif=null){
+        $page="Report Kwitansi";
+        $ketpage="Kwitansi SPPD ".cek_bidang(Auth::user()->bidang_id)['name'];
+        $url='surat_tugas/kwitansi/ok';
+        $data=Surattugas::where('bidang_id',Auth::user()->bidang_id)->where('sts',3)->whereBetween('date_surat', [$request->mulai, $request->sampai])->get();
+        $mulai=$request->mulai;
+        $sampai=$request->sampai;
+        $modaldata=Surattugas::where('bidang_id',Auth::user()->bidang_id)->get();
+        $detaildata=Detailsurattugas::all();
+        $pegai=Pegawai::where('bidang_id',Auth::user()->bidang_id)->get();
+        //dd(cek_kegiatan(24));
+        $alert=Surattugas::where('bidang_id',Auth::user()->bidang_id)->get();
+        $notif=$notif;
+        $id = collect([]);
+        $pegawai_id = collect([]);
+        $cekpegawai_id = collect([]);
+        $transportasi = collect([]);
+        $harian = collect([]);
+        $representasi = collect([]);
+        $penginapan = collect([]);
+        foreach($modaldata as $dataa){
+            for($x=0;$x<$dataa->jumlah;$x++){
+                $detail=Detailsurattugas::where('surat_tugas_id',$dataa->id)->where('urut',$x)->first();
+                foreach($pegai as $pe){
+                    if($pe['id']==$detail['pegawai_id']){
+                        $pegawai_id->push([
+                            'selected'   =>'selected'
+                        ]);
+                    }else{
+                        $pegawai_id->push([
+                            'selected'   =>''
+                        ]);
+                    }
+                }
+                $transportasi->push([
+                    'transportasi' => $detail['transportasi']
+                ]);
+                $harian->push([
+                    'harian'       => $detail['uang_harian']
+                ]);
+                $representasi->push([
+                    'representasi' => $detail['uang_representasi']
+                ]);
+                $penginapan->push([
+                    'penginapan'   => $detail['uang_penginapan']
+                ]);
+                
+                $cekpegawai_id->push([
+                    'pegawai_id'   => $detail['pegawai_id']
+                ]);
+                $id->push([
+                    'id'   => $detail['id']
+                ]);
+            }
+        }
+        //dd(nomor());
+        return view( 'surat_tugas.report_kwitansi',compact('page','ketpage','url','data','sampai','mulai','notif','modaldata','alert','transportasi','harian','representasi','penginapan','pegawai_id','id','detaildata'));
+    }
+    public function index_report_detail_kwitansi(request $request, $notif=null){
+        $page="Report Detail Kwitansi";
+        $ketpage="Kwitansi SPPD ".cek_bidang(Auth::user()->bidang_id)['name'];
+        $url='surat_tugas/kwitansi/ok';
+        $data=Surattugas::where('bidang_id',Auth::user()->bidang_id)->where('sts',3)->whereBetween('date_surat', [$request->mulai, $request->sampai])->get();
+        $mulai=$request->mulai;
+        $sampai=$request->sampai;
+        $modaldata=Surattugas::where('bidang_id',Auth::user()->bidang_id)->get();
+        $detaildata=Detailsurattugas::all();
+        $pegai=Pegawai::where('bidang_id',Auth::user()->bidang_id)->get();
+        //dd(cek_kegiatan(24));
+        $alert=Surattugas::where('bidang_id',Auth::user()->bidang_id)->get();
+        $notif=$notif;
+        $id = collect([]);
+        $pegawai_id = collect([]);
+        $cekpegawai_id = collect([]);
+        $transportasi = collect([]);
+        $harian = collect([]);
+        $representasi = collect([]);
+        $penginapan = collect([]);
+        foreach($modaldata as $dataa){
+            for($x=0;$x<$dataa->jumlah;$x++){
+                $detail=Detailsurattugas::where('surat_tugas_id',$dataa->id)->where('urut',$x)->first();
+                foreach($pegai as $pe){
+                    if($pe['id']==$detail['pegawai_id']){
+                        $pegawai_id->push([
+                            'selected'   =>'selected'
+                        ]);
+                    }else{
+                        $pegawai_id->push([
+                            'selected'   =>''
+                        ]);
+                    }
+                }
+                $transportasi->push([
+                    'transportasi' => $detail['transportasi']
+                ]);
+                $harian->push([
+                    'harian'       => $detail['uang_harian']
+                ]);
+                $representasi->push([
+                    'representasi' => $detail['uang_representasi']
+                ]);
+                $penginapan->push([
+                    'penginapan'   => $detail['uang_penginapan']
+                ]);
+                
+                $cekpegawai_id->push([
+                    'pegawai_id'   => $detail['pegawai_id']
+                ]);
+                $id->push([
+                    'id'   => $detail['id']
+                ]);
+            }
+        }
+        //dd(nomor());
+        return view( 'surat_tugas.report_detail_kwitansi',compact('page','ketpage','url','data','sampai','mulai','notif','modaldata','alert','transportasi','harian','representasi','penginapan','pegawai_id','id','detaildata'));
     }
 
     public function detail($id){
@@ -295,12 +412,12 @@ class SurattugasController extends Controller
         if (trim($request->nomor_rekening) == '') {$error[] = '-  Kolom Nomor Rekening Harus diisi';}
         if (isset($error)) {echo '<b>Error</b>: <br />'.implode('<br />', $error);} 
         else{
-            $update                     =Surattugas::find($request->id);
-            $update->date_kwitansi      = $request->date_kwitansi;
-            $update->date_terima        = $request->date_terima;
+            $update                      =Surattugas::find($request->id);
+            $update->date_kwitansi       = $request->date_kwitansi;
+            $update->date_terima         = $request->date_terima;
             $update->nomor_kwitansi      = $request->nomor_kwitansi;
             $update->nomor_rekening      = $request->nomor_rekening;
-                        
+            $update->sts                 = 3;        
             $update->save();
 
             $jum=count($request->detail_id);
@@ -414,20 +531,37 @@ class SurattugasController extends Controller
         echo $data['jumlah'];
     }
 
-    public function cek_nilai($z,$jenis,$angkutan,$tujuan){
+    public function cek_nilai($z,$jenis,$tujuan){
         $data = Pegawai::where('id',$z)->first();
         $golongan=cari_golongan($data['golongan']);
-        $nilai = Domlak::where('golongan_id',$golongan)->where('angkutan_id',$angkutan)->where('tujuan_sppd_id',$tujuan)->first();
+        $nilai = Domlak::where('golongan_id',$golongan)->where('tujuan_sppd_id',$tujuan)->first();
         echo $nilai['transportasi'].'-'.$nilai['uang_harian'].'-'.$nilai['uang_representasi'].'-'.$nilai['uang_penginapan'];
     }
 
-    public function pdf(){
-        $data = Surattugas::where('bidang_id',Auth::user()->bidang_id)->get();
+    public function pdf_report_kwitansi(request $request){
+        $data = Surattugas::where('bidang_id',Auth::user()->bidang_id)->where('sts',3)->whereBetween('date_surat', [$request->mulai, $request->sampai])->get();
+ 
+        $pdf = PDF::loadview('pdf.report_kwitansi',['data'=>$data]);
+        $pdf->setPaper('A3', 'landscape');
+    	return $pdf->stream();
+    }
+    public function pdf_report_detail_kwitansi(request $request){
+        $data = Surattugas::where('bidang_id',Auth::user()->bidang_id)->where('sts',3)->whereBetween('date_surat', [$request->mulai, $request->sampai])->get();
+    
+        $pdf = PDF::loadview('pdf.report_detail_kwitansi',['data'=>$data]);
+        $pdf->setPaper('A3', 'landscape');
+    	return $pdf->stream();
+    }
+
+    public function pdf_surat(request $request){
+        $data = Surattugas::where('bidang_id',Auth::user()->bidang_id)->whereBetween('date_surat', [$request->mulai, $request->sampai])->get();
  
         $pdf = PDF::loadview('pdf.surat_tugas',['data'=>$data]);
         $pdf->setPaper('A3', 'landscape');
     	return $pdf->stream();
     }
+
+    
 
     public function pdf_kwitansi($id){
         $data = Surattugas::where('id',$id)->first();

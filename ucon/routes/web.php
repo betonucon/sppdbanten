@@ -107,13 +107,17 @@ Route::group([
             Route::get('/{notif?}', 'SurattugasController@index');
             Route::get('/report/report', 'SurattugasController@report');
             Route::get('/kwitansi/{notif?}', 'SurattugasController@index_kwitansi');
+            Route::get('/report_kwitansi/{notif?}', 'SurattugasController@index_report_kwitansi');
+            Route::get('/report_detail_kwitansi/{notif?}', 'SurattugasController@index_report_detail_kwitansi');
             Route::get('/pdf/sppd/{id}', 'SurattugasController@pdf_sppd');
             Route::get('/pdf/spt/{id}', 'SurattugasController@pdf_spt');
             Route::get('/pdf/lampiran/{id}', 'SurattugasController@pdf_lampiran');
             Route::get('/pdf/kwitansi/{id}', 'SurattugasController@pdf_kwitansi');
             Route::get('/pdf/kwitansi_spm/{id}', 'SurattugasController@pdf_kwitansi_spm');
             Route::get('/pdf/kwitansi_rpbd/{id}', 'SurattugasController@pdf_kwitansi_rpbd');
-            Route::get('/pdf/surat_tugas', 'SurattugasController@pdf');
+            Route::get('/pdf/surat_tugas', 'SurattugasController@pdf_surat');
+            Route::get('/pdf/report_kwitansi_nya', 'SurattugasController@pdf_report_kwitansi');
+            Route::get('/pdf/report_detail_kwitansi', 'SurattugasController@pdf_report_detail_kwitansi');
             Route::get('/pdf/download', 'SurattugasController@download_pdf');
             Route::post('/save/{act}', 'SurattugasController@store');
             Route::post('/save_detail/', 'SurattugasController@store_detail');
@@ -122,7 +126,7 @@ Route::group([
             Route::get('/detail/{id}', 'SurattugasController@detail');
             Route::get('/delete/{id}', 'SurattugasController@delete');
             Route::get('/tujuan/{id}', 'SurattugasController@tujuan');
-            Route::get('/ceknilai/{z}/{jenis}/{angkutan}/{tujuan}', 'SurattugasController@cek_nilai');
+            Route::get('/ceknilai/{z}/{jenis}/{tujuan}', 'SurattugasController@cek_nilai');
             // Route::get('/ceknilai/{a?}/{b?}/{c?}', 'SurattugasController@cek_nilai');
         });
 });

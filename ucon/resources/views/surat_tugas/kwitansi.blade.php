@@ -171,35 +171,35 @@
                                 @endif
                             
                             </tr>
-                            @foreach($detaildata->where('surat_tugas_id',$modalpegawai->id) as $detaildata)
+                            @foreach($detaildata->where('surat_tugas_id',$modalpegawai->id) as $detailsuratt)
                             <tr>
-                                <td class="ttd" align="center">{{$detaildata->urut+1}}</td>
+                                <td class="ttd" align="center">{{$detailsuratt->urut+1}}</td>
                                 <td class="ttd">
-                                    <input type="text" readonly style="width:100%;padding:5px;background:aqua;border:solid 1px aqua;" readonly  value="{{cekpegawai($detaildata->pegawai_id)['nama']}}" >
+                                    <input type="text" readonly style="width:100%;padding:5px;background:aqua;border:solid 1px aqua;" readonly  value="{{cekpegawai($detailsuratt->pegawai_id)['nama']}}" >
                                 </td>
                                 <td class="ttd">
-                                    <input type="text" readonly style="width:100%;padding:5px;background:aqua;border:solid 1px aqua" readonly  value="{{cekpegawai($detaildata->pegawai_id)['golongan']}}" >
+                                    <input type="text" readonly style="width:100%;padding:5px;background:aqua;border:solid 1px aqua" readonly  value="{{cekpegawai($detailsuratt->pegawai_id)['golongan']}}" >
                                 </td>
                                 <td class="ttd">
-                                    <input type="text" style="width:100%;padding:5px"  name="transportasi[]" value="{{$detaildata->transportasi}}" >
+                                    <input type="text" style="width:100%;padding:5px"  name="transportasi[]" value="{{$detailsuratt->transportasi}}" >
                                 </td>
                                 <td class="ttd">
-                                    <input type="text" style="width:100%;padding:5px"  name="uang_harian[]" value="{{$detaildata->uang_harian}}">
+                                    <input type="text" style="width:100%;padding:5px"  name="uang_harian[]" value="{{$detailsuratt->uang_harian}}">
                                 </td>
                                 <td class="ttd">
-                                    <input type="text" style="width:100%;padding:5px"  name="uang_representasi[]" value="{{$detaildata->uang_harian}}">
+                                    <input type="text" style="width:100%;padding:5px"  name="uang_representasi[]" value="{{$detailsuratt->uang_harian}}">
                                 </td>
                                 <td class="ttd">
-                                    <input type="text" style="width:100%;padding:5px"  name="uang_penginapan[]" value="{{$detaildata->uang_penginapan}}">
-                                    <input type="hidden" readonly name="detail_id[]" value="{{$detaildata->id}}">
+                                    <input type="text" style="width:100%;padding:5px"  name="uang_penginapan[]" value="{{$detailsuratt->uang_penginapan}}">
+                                    <input type="hidden" readonly name="detail_id[]" value="{{$detailsuratt->id}}">
                                 </td>
                                 @if($modalpegawai->angkutan_id==1)
                                     
                                     <td class="ttd">
-                                        <input type="text" style="width:100%;padding:5px" name="harga_berangkat[]" value="{{$detaildata->harga_berangkat}}">
+                                        <input type="text" style="width:100%;padding:5px" name="harga_berangkat[]" value="{{$detailsuratt->harga_berangkat}}">
                                     </td>
                                     <td class="ttd">
-                                        <input type="text" style="width:100%;padding:5px" name="harga_kembali[]" value="{{$detaildata->harga_kembali}}">
+                                        <input type="text" style="width:100%;padding:5px" name="harga_kembali[]" value="{{$detailsuratt->harga_kembali}}">
                                     </td>
                                 @endif
                             </tr>

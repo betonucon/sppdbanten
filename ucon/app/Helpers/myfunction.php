@@ -177,7 +177,7 @@ function cekgolongan($id)
 function status($id)
 {
    $data=App\Status::where('sts',$id)->first();
-   $text='<p style="color:'.$data->color.'">'.$data['name'].'</p>';
+   $text='<p style="color:'.$data['color'].'">'.$data['name'].'</p>';
    return $text;
 }
 
@@ -218,6 +218,28 @@ function uang_representasi($id)
 {
    $data=App\Detailsurattugas::where('surat_tugas_id',$id)->sum('uang_representasi');
    return $data;
+}
+
+function total_kwitansi($id,$selisih){
+   $tot=App\Detailsurattugas::where('id',$id)->first();
+   
+   $total=($tot['transportasi']*$selisih)+($tot['uang_harian']*$selisih)+($tot['uang_penginapan']*$selisih)+($tot['uang_representasi']*$selisih)+$tot['harga_berangkat']+$tot['harga_kembali'];
+   return $total;
+}
+function sub_total_kwitansi($id,$selisih){
+   $berangkat=App\Detailsurattugas::where('surat_tugas_id',$id)->sum('harga_berangkat');
+   $kembali=App\Detailsurattugas::where('surat_tugas_id',$id)->sum('harga_kembali');
+   if($berangkat==''){
+      $tiket=0;
+   }else{
+      $tiket=($berangkat+$kembali);
+   }
+   $t=App\Detailsurattugas::where('surat_tugas_id',$id)->sum('transportasi');
+   $h=App\Detailsurattugas::where('surat_tugas_id',$id)->sum('uang_harian');
+   $p=App\Detailsurattugas::where('surat_tugas_id',$id)->sum('uang_penginapan');
+   $r=App\Detailsurattugas::where('surat_tugas_id',$id)->sum('uang_representasi');
+   $total=($t*$selisih)+($h*$selisih)+($p*$selisih)+($r*$selisih)+$tiket;
+   return $total;
 }
 function harga_tiket($id)
 {
@@ -376,7 +398,7 @@ function nomor()
 function ceksurattugas($id)
 {
    $data=App\Surattugas::where('id',$id)->first();
-   return $data->nomor_surat;
+   return $data['nomor_surat'];
 }
 
 function employe()

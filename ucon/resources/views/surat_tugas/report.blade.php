@@ -28,12 +28,14 @@
                     <div class="mailbox-controls" style="background:#d6d6e3;margin-bottom:10px">
                         <!-- Check all button -->
                         
-                            <span  class="btn btn-success btn-sm" onclick="print()"><i class="fa fa-print"></i></span>
-                            <span  class="btn btn-default btn-sm" onclick="download()"><i class="fa fa-download"></i></span>
-                            
-                        
-                        <!-- /.btn-group -->
-                        <button type="button" class="btn btn-default btn-sm" onclick="reload()"><i class="fa fa-refresh"></i></button>
+                        <div class="input-group ">
+                                
+                                <input type="text" value="{{$mulai}}" style="display:inline;width:30%" name="date_mulai" class="form-control" id="datepicker1">
+                                <input type="text" value="{{$sampai}}" style="display:inline;width:30%;margin-left:5px" name="date_mulai" class="form-control" id="datepicker2">
+                                <span  class="btn btn-primary btn-sm"  style="margin-top:2px" onclick="cari_data()"><i class="fa fa-search"></i> &nbsp;</span>
+                                <span  class="btn btn-default btn-sm" onclick="reload()"  style="margin-left:5px;margin-top:2px" ><i class="fa fa-refresh"></i> &nbsp;</span>
+                                <span  class="btn btn-success btn-sm"  style="margin-left:5px;margin-top:2px"  onclick="print()"><i class="fa fa-print"></i> Export PDF</span>
+                        </div>
                         <div class="pull-right">
                         
                         </div>
@@ -524,10 +526,17 @@
 function close_notif(){
     window.location.assign("{{url('/surat_tugas/')}}");
 }
-function print(){
-    window.location.assign("{{url('/surat_tugas/pdf/surat_tugas')}}");
+function cari_data(){
+    var mulai=$('#datepicker1').val();
+    var sampai=$('#datepicker2').val();
+    window.location.assign("{{url('/surat_tugas/report/report')}}?mulai="+mulai+"&sampai="+sampai);
 }
 
+function print(){
+    var mulai=$('#datepicker1').val();
+    var sampai=$('#datepicker2').val();
+    window.open("{{url('/surat_tugas/pdf/surat_tugas')}}?mulai="+mulai+"&sampai="+sampai,"_blank");
+}
 function download(){
     window.location.assign("{{url('/golongan/pdf/download')}}");
 }
